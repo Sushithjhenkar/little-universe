@@ -83,10 +83,19 @@ If your Cloudflare project is connected to the `main` branch, pushing to `main` 
 ## Performance
 Animation is mostly CSS 3D/transforms plus a scroll-driven requestAnimationFrame loop. Reduced-motion preferences are respected. Video files only load on click, and the YouTube iframe is created **only** if someone opens the player. Aim for modern AVIF/WebP posters and appropriately resized images when adding Drive media.
 
-## Personal birthday update
+## Sunshine birthday upgrade (November 2026)
 
-The site now has a warmer, friendship-and-relationship-inspired design rather than a stardust/outer-space theme. The four questions are: first meeting in college (2019), original Happy Birthday/Thank You chat, a **skippable typed reflection** about the breakup, and a playful Yes / Option A question with a **skippable** choice. Nothing is scored, saved or sent.
+- **Yellow / sunshine aesthetic:** cream, butter-yellow, honey-gold, and gentle blush accents replace the old space/stardust look. Mobile 3D memory timeline and SoundCloud music remain.
+- **Personal memory quiz:** Q1 first met in 2019 at college; Q2 first chat was Happy Birthday / Thank You. Correct answers trigger a celebratory popup and floating flowers/hearts, while wrong options show a hint and allow retrying.
+- **Q3:** optional on-page typed response (no skip button). It is **never read, collected, transmitted, or stored**. A fixed personal accountability/apology popup appears on Continue.
+- **Q4:** both “Yes” and “Option A” are accepted as a joke. The discreet opt-out on this personal question remains.
+- **Birthday cake:** a self-contained rotating three-tier CSS 3D cake with frosting, candles, swipe/drag rotation, a spin button, warm petals, off-screen performance pause, and reduced-motion support. No 3D CDN, audio asset, model asset, or raster cake image.
+- **Gift:** the public preview uses a nonredeemable gift envelope; real Amazon.in gift code must be configured only in an encrypted secret on the authenticated Cloudflare Worker.
+- **Privacy:** real memories are NOT published or included in GitHub. The secure-photo/video branch is staged but must be configured and reviewed before deployment.
 
-The final birthday letter acknowledges missing the old closeness and quietly hoping for a future together without asking for an answer.
+### Still pending before the private birthday launch
 
-The **Make a Wish & Open Your Gift** button reveals a birthday envelope. The public preview only shows a placeholder, never a real gift code. In the protected Cloudflare deployment you may optionally configure the encrypted secret `BIRTHDAY_GIFT_CODE` after buying a legitimate Amazon.in gift card; then an authenticated click requests `GET /api/private/gift` and shows the code with a copy button and the official Amazon.in redemption page. **Never commit this code to GitHub, embed it in HTML, or put it in public Drive.** This is only a demo until a card is actually purchased.
+1. Decide the final website name.
+2. Choose a non-guessable magical-word entry phrase and configure the Cloudflare Worker credentials and rate limits.
+3. Enable authenticated server-side media fetching for the selected Drive photos/videos; verify the Drive folder is restricted.
+4. Purchase an eligible Amazon.in gift card and add its code only to the encrypted Cloudflare Worker secret, never the repo.
