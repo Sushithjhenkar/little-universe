@@ -11,12 +11,19 @@ https://little-universe.sushithjhenkar.workers.dev/
 - Photo gallery placeholders and secure-media-ready portrait background
 - Animated, mobile-friendly video film reels with an accessible playback dialog
 - Interactive birthday wishes, confetti and subtle visual depth effects
-- Optional user-initiated official YouTube music player for **Neene Yendigu** from *Love Mocktail*
+- Continuous background soundtrack using the original SoundCloud upload of **Neene Yendigu** by Nihal Tauro, with click/tap-to-enable fallback and infinite repeat
 - Reduced-motion support, lazy loaded media and transform-based UI animation
 
-## Music and copyright
-The song is NOT downloaded, re-hosted or placed in the repository. The music button opens an embedded **official YouTube video** after a deliberate click. If embedding is blocked or a browser prevents autoplay, the panel links to the official video:
-https://www.youtube.com/watch?v=9b1DrKv3MXo
+## Background song, browser autoplay and copyright
+
+The music source is the original SoundCloud upload by Nihal Tauro:
+https://soundcloud.com/nihaltauro/love-you-chinna
+
+The site loads SoundCloud's official **audio-only widget** in the background on entry, tries to start playback, and uses SoundCloud's Widget API `FINISH` event to rewind and repeat the track. The visitor can pause/resume from the compact music panel. **Closing the music panel does not stop playback.**
+
+Browsers (especially iOS Safari and Android Chrome) frequently prevent audible autoplay on a fresh page. If autoplay is blocked, the code tries playback during the visitor's **first tap anywhere** (including tapping the “Begin the journey” link), requiring no separate “play song” tap. A manual pause/resume control is provided if needed. A browser, SoundCloud, or the device can still interrupt playback; truly guaranteed sound on page load is not possible.
+
+The copyrighted recording is not downloaded, copied, bundled, or re-hosted. The page retains a visible attribution link and an accessible expandable audio-only SoundCloud player.
 
 ## Private media: future phase
 The static site contains an optional, inactive media API hook. **Do not attach media publicly yet**.
