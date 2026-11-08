@@ -14,3 +14,15 @@
 @media(min-width:850px){.film-card:hover{transform:translateY(-14px) rotateX(2deg)}}
 @media(max-width:790px){.filmstrip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:30px -23px 0;padding:0 23px 20px;gap:17px}.filmstrip::-webkit-scrollbar{display:none}.film-card{min-width:min(74vw,345px);scroll-snap-align:center}.film-visual{aspect-ratio:4/4.4}.film-meta strong{font-size:23px}.nav{padding-inline:18px}.nav .quiet{font-size:11px;padding:10px}.marquee{height:60px}}
 @media(prefers-reduced-motion:reduce){.marquee-track,.hero .primary:before,.video-aura,.film-visual:before,.nav .quiet[aria-expanded=true] .sound-dot{animation:none!important}.portrait-backdrop img{transform:none!important}.film-card{transition:none!important}.filmstrip{scroll-behavior:auto}.music-sheet{transition:none}}
+
+/* Audio-only SoundCloud soundtrack; mini controls leave the music playing when folded away. */
+.music-player{min-height:112px;background:#120e1c;border:1px solid #ffffff20}
+.music-player .soundcloud-iframe{height:112px;min-height:112px;width:100%;display:block;background:#17121f}
+.music-actions{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-top:14px}
+.music-control{white-space:nowrap;color:#190e20;background:#f6d0e6;border:0;border-radius:40px;padding:10px 14px;font-size:12px;font-weight:700;transition:background .25s,transform .25s}
+.music-control:hover{background:white;transform:translateY(-1px)}
+.music-state{color:#d2c3d6;text-align:right;font-size:11px;line-height:1.4;max-width:125px}
+.music-sheet .music-note{margin:11px 0;line-height:1.6}
+.nav .quiet.music-active .sound-dot{background:#aef9ce;box-shadow:0 0 14px #9afaad;animation:pulse-dot 1.4s ease-in-out infinite}
+.nav .quiet.music-paused .sound-dot{background:#a4a0aa;box-shadow:none;animation:none}
+@media(max-width:650px){.music-sheet{top:75px;right:12px}.nav .quiet.music-active .sound-dot{animation:none}}
