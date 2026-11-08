@@ -1,4 +1,4 @@
-/* Little Universe — private Cloudflare Worker.
+/* Some Bonds Stay Golden — private Cloudflare Worker.
    ALL assets go through the Worker before being delivered.
    No personal media, Drive IDs, passphrases or tokens are stored in GitHub.
 */
@@ -36,10 +36,10 @@ function secureHeaders(response,extra={}){
  for(const [key,value] of Object.entries(extra))headers.set(key,value);
  return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }
-function gatePage(failed=false){
- const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>A Little Universe · Secret Entrance</title>
- <style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;background:radial-gradient(ellipse at 70% 25%,#3a174b,#090711 65%);color:#faf0f8;font:16px system-ui,sans-serif;padding:22px}main{width:min(100%,455px);text-align:center;padding:42px 28px;border:1px solid #ffffff30;border-radius:27px;background:#ffffff09;box-shadow:0 20px 85px #0008;backdrop-filter:blur(22px)}.star{font-size:62px;color:#f5b5d5;text-shadow:0 0 40px #f5aadb8a}h1{font:500 clamp(36px,8vw,54px)/1.08 Georgia,serif;margin:17px 0 13px}p{color:#c6b6d4;line-height:1.7;font-size:14px}label{display:block;text-align:left;font-size:12px;letter-spacing:.1em;margin:34px 0 9px;color:#efd0df}input{background:#ffffff10;color:#fff;border:1px solid #ffffff52;border-radius:13px;padding:16px;width:100%;font:inherit;outline-offset:3px}button{margin-top:15px;width:100%;border:0;border-radius:14px;padding:16px;font:700 15px system-ui,sans-serif;background:#f7cbe1;color:#1e1320;cursor:pointer}.error{color:#ffafc4;margin-top:12px;font-size:13px}</style></head><body><main><div class="star" aria-hidden="true">✦</div><h1>A little universe<br>just for you.</h1><p>Some memories are meant to be shared with someone special.<br>Enter the magical phrase to step inside.</p><form action="/unlock" method="post"><label for="secret">OUR MAGIC WORD</label><input type="password" name="secret" id="secret" placeholder="A little secret between us…" autocomplete="off" maxlength="160" required autofocus><button type="submit">Enter our universe ✦</button></form>${failed?'<p class="error" role="alert">That wasn’t the phrase. Try again gently ✨</p>':""}</main></body></html>`;
- const response=new Response(html,{status:failed?401:200,headers:{"Content-Type":"text/html; charset=utf-8"}});
+function gatePage(failed=false,limited=false){
+ const html=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="theme-color" content="#ffe69d"><title>Some Bonds Stay Golden · Private Entrance</title>
+ <style>:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;background:radial-gradient(ellipse at 72% 14%,#fffef4 0%,transparent 52%),radial-gradient(ellipse at 18% 88%,#ffd580a8,transparent 55%),linear-gradient(140deg,#fff9dc,#ffe69e 55%,#fff5c4);color:#4e341d;font:16px system-ui,sans-serif;padding:22px}main{width:min(100%,465px);text-align:center;padding:43px 28px;border:1px solid #c69b55a1;border-radius:27px;background:linear-gradient(145deg,#fffefa,#fff9e6);box-shadow:0 20px 75px #a8753245}.heart{font:70px Georgia,serif;color:#c98b3b;text-shadow:0 9px 23px #e8bd724f}h1{font:500 clamp(36px,8vw,51px)/1.12 Georgia,serif;margin:14px 0 13px;color:#52371d}p{color:#786045;line-height:1.7;font-size:14px}label{display:block;text-align:left;font-size:11px;font-weight:700;letter-spacing:.17em;margin:29px 0 9px;color:#8e632b}input{background:#fffdf4;color:#4e351e;border:1px solid #c69e5c;border-radius:13px;padding:16px;width:100%;font:inherit;outline-offset:3px}button{margin-top:15px;width:100%;border:1px solid #c4913d;border-radius:14px;padding:16px;font:700 15px system-ui,sans-serif;background:linear-gradient(110deg,#edbb50,#ffe39d);color:#49321d;cursor:pointer}button:hover{background:#ffdc7c}.error{color:#9a4333;margin-top:14px;font-size:13px}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style></head><body><main><div class="heart" aria-hidden="true">♡</div><h1>Some Bonds<br>Stay Golden.</h1><p>A little birthday story, and a few precious memories.<br>Enter our special phrase to step inside.</p><form action="/unlock" method="post"><label for="secret">OUR MAGICAL PHRASE</label><input type="password" name="secret" id="secret" placeholder="The phrase only we know…" autocomplete="off" maxlength="160" required><button type="submit">Open our little story ♡</button></form>${limited?'<p class="error" role="alert">Too many attempts. Please try again in a minute.</p>':failed?'<p class="error" role="alert">That phrase isn’t quite right. Please try again.</p>':""}</main></body></html>`;
+ const response=new Response(html,{status:limited?429:failed?401:200,headers:{"Content-Type":"text/html; charset=utf-8"}});
  return secureHeaders(response,{"Content-Security-Policy":"default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'"});
 }
 function getCookie(req){
@@ -134,10 +134,16 @@ export default {
   const url=new URL(request.url),path=url.pathname;
   if(!env.ACCESS_PASSPHRASE||!env.SESSION_SIGNING_KEY)return secureHeaders(new Response("Secure site is not configured yet.",{status:503}));
   if(path==="/unlock"&&request.method==="POST"){
+   // Each IP gets a limited number of password attempts per minute.
+   // Rate-limit the attempt before reading or checking the passphrase.
+   if(!env.AUTH_RATE_LIMITER)return secureHeaders(new Response("Secure rate limiting is not configured.",{status:503}));
+   const ip=request.headers.get("CF-Connecting-IP")||"unknown";
+   const rate=await env.AUTH_RATE_LIMITER.limit({key:ip});
+   if(!rate.success)return gatePage(false,true);
    if(Number(request.headers.get("Content-Length")||0)>2048)return gatePage(true);
-   let entered="";try{entered=String((await request.formData()).get("secret")||"").trim().toLowerCase()}catch{return gatePage(true)}
+   let entered="";try{entered=String((await request.formData()).get("secret")||"").trim()}catch{return gatePage(true)}
    if(!entered||entered.length>160)return gatePage(true);
-   const correct=await hash(env.ACCESS_PASSPHRASE.trim().toLowerCase());
+   const correct=await hash(env.ACCESS_PASSPHRASE.trim());
    const provided=await hash(entered);
    if(!safeEqual(provided,correct))return gatePage(true);
    const cookie=await sessionCookie(env.SESSION_SIGNING_KEY);
@@ -147,7 +153,10 @@ export default {
   }
   if(path==="/unlock"&&request.method==="GET")return gatePage();
   const authorized=await hasSession(request,env.SESSION_SIGNING_KEY);
-  if(!authorized)return request.method==="GET"?gatePage():secureHeaders(new Response("Not authorized",{status:401}));
+  if(!authorized){
+   if(path.startsWith("/api/"))return secureHeaders(new Response("Not authorized",{status:401}));
+   return request.method==="GET"?gatePage():secureHeaders(new Response("Not authorized",{status:401}));
+  }
   if(path==="/logout"){
    return secureHeaders(new Response(null,{status:303,headers:{
     Location:"/unlock","Set-Cookie":COOKIE+"=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0"
