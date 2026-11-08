@@ -18,3 +18,46 @@
 .planet-core{position:absolute;inset:26%;border-radius:50%;background:radial-gradient(circle at 30% 25%,#f9d1d7 0%,#b787c1 23%,#4a326a 55%,#0c0a20 78%);box-shadow:inset -25px -35px 35px #05030cbd,0 0 60px #f5b8ff30;transform:translateZ(70px)}
 .planet-ring{position:absolute;inset:11%;border-radius:50%;border:clamp(13px,3vw,34px) solid #d8bbff35;box-shadow:0 0 35px #d3a5f92b,inset 0 0 35px #e7b9ff25;transform:translateZ(45px) rotateX(5deg)}.ring-b{inset:5%;border-width:2px;border-color:#f1c9d94d;transform:translateZ(25px) rotateX(-9deg)}
 @keyframes planet-drift{to{transform:translate(-50%,-48%) rotateX(62deg) rotateZ(10deg)}}@media(max-width:650px){.hero-planet{width:95vw;height:95vw;opacity:.35}}@media(prefers-reduced-motion:reduce){.hero-planet{animation:none}}
+
+
+/* Mobile Safari repair: keep the timeline sticky inside the viewport's own
+   scrolling context. Overflow clipping on ancestors can break WebKit sticky. */
+.cosmos-mobile-nav{display:none}
+@media (max-width:800px){
+  html,body{overflow-x:clip}
+  .cosmos-timeline{height:445svh;overflow:visible;isolation:auto;background:#080611}
+  .cosmos-track{height:100%;position:relative}
+  .cosmos-sticky{position:-webkit-sticky;position:sticky;top:0;height:100svh;min-height:0;overflow:hidden;contain:layout;overscroll-behavior:contain}
+  .cosmos-copy{top:11%;left:24px;max-width:calc(100% - 48px)}
+  .cosmos-copy h2{font-size:clamp(33px,8vw,48px);line-height:1.03;margin:12px 0}
+  .cosmos-copy p{font-size:12px;line-height:1.4;margin:6px 0;max-width:255px}
+  .cosmos-copy .eyebrow{font-size:9px;letter-spacing:.17em}
+  .cosmos-counter{margin-top:7px}
+  .cosmos-counter strong{font-size:29px}
+  .cosmos-progress{margin-top:7px}
+  .cosmos-scene{position:absolute;left:0;right:0;top:16%;bottom:-6%;perspective:750px;perspective-origin:50% 55%;pointer-events:none;-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
+  .cosmos-card-set{position:absolute;inset:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
+  .cosmos-card{width:clamp(155px,45vw,225px);max-width:60vw;top:50%;left:50%;padding:5px;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform-style:flat;will-change:transform,opacity;box-shadow:0 14px 26px #0008,0 0 12px #d5a0ff16}
+  .cosmos-art:before{animation:none;filter:none;opacity:.34}
+  .cosmos-art b{font-size:70px}
+  .cosmos-ambient i{animation:none;filter:none}
+  .cosmos-sticky:before{background:linear-gradient(180deg,#080611 0%,#08061100 38%,#07050a30 78%,#080611dd 100%);pointer-events:none}
+  .cosmos-detail{left:24px;right:24px;bottom:92px;max-width:calc(100% - 48px)}
+  .cosmos-detail strong{font-size:20px}
+  .cosmos-detail span{font-size:12px}
+  .cosmos-scroll{display:none}
+  .cosmos-mobile-nav{position:absolute;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:16px;bottom:17px;left:24px;right:24px}
+  .cosmos-mobile-nav>span{font-size:9px;font-weight:700;letter-spacing:.19em;color:#d8bfda;text-align:center}
+  .cosmos-nav-button{display:grid;place-items:center;border:1px solid #f9c9e57a;color:#fde9f4;background:#f4adce12;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);border-radius:50%;width:45px;height:45px;font-size:21px;transition:background .2s,transform .2s}
+  .cosmos-nav-button:active{transform:scale(.94);background:#f9c9e531}
+  .cosmos-nav-button:disabled{opacity:.3;cursor:default}
+}
+@media (max-width:800px) and (prefers-reduced-motion:reduce){
+  .cosmos-timeline{height:auto;overflow:hidden;isolation:isolate}
+  .cosmos-sticky{position:relative;height:auto;min-height:100vh;overflow:visible;contain:none}
+  .cosmos-scene{position:relative;inset:auto;perspective:none;pointer-events:auto}
+  .cosmos-copy,.cosmos-detail{position:relative;inset:auto;max-width:100%;transform:none;margin:0 0 25px}
+  .cosmos-card-set{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .cosmos-card{position:relative;inset:auto;width:100%;max-width:100%;transform:none!important;opacity:1!important;visibility:visible!important}
+  .cosmos-mobile-nav{display:none}
+}
