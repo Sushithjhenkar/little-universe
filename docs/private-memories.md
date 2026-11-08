@@ -23,12 +23,12 @@ Do **not** overwrite the public preview first.
 1. Install Node.js and run `npm install` in a local clone of the repository.
 2. Check out `feature/private-memories-gate`.
 3. Run `npm run build:private` to create `dist/`. The build includes all HTML, CSS, JS, cake and quiz but **no private media, secrets, or Drive IDs**.
-4. Run `npm run deploy:private` from an authenticated Wrangler CLI. The config uses the distinct Worker name `little-universe-private-preview`, so it does not overwrite the existing live site.
+4. Run `npm run deploy:private` from an authenticated Wrangler CLI. The config uses the distinct Worker name `some-bonds-stay-golden-private-preview`, so it does not overwrite the existing live site.
 5. Initially this Worker returns HTTP 503 because secrets have not been installed yet. That is intentional: **fail closed**.
 
 ### B. Configure Cloudflare encrypted Worker secrets
 
-In the Cloudflare dashboard choose **Workers & Pages → little-universe-private-preview → Settings → Variables and Secrets → Add → Type: Secret**.
+In the Cloudflare dashboard choose **Workers & Pages → some-bonds-stay-golden-private-preview → Settings → Variables and Secrets → Add → Type: Secret**.
 
 Add these secret *names*; do not paste the values into GitHub or this guide:
 
