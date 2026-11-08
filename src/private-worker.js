@@ -154,6 +154,15 @@ export default {
    }}));
   }
   const manifest=manifestFromEnv(env);
+  // The optional real Amazon.in gift card is stored as an encrypted Cloudflare
+  // Worker secret, never in GitHub, HTML, JS or a public Drive document.
+  if(path==="/api/private/gift"&&request.method==="GET"){
+   const code=String(env.BIRTHDAY_GIFT_CODE||"").trim();
+   if(!code||!(/^[A-Za-z0-9-]{6,100}$/.test(code))){
+    return secureHeaders(Response.json({ready:false}));
+   }
+   return secureHeaders(Response.json({ready:true,code}));
+  }
   if(path==="/api/private/memories"&&request.method==="GET"){
    return secureHeaders(Response.json(mediaIndex(manifest)));
   }
