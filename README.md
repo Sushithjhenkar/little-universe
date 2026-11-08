@@ -8,9 +8,10 @@ https://little-universe.sushithjhenkar.workers.dev/
 ## What's included
 - Cinematic hero with lightweight CSS 3D planet and orbit effects
 - Ambient starfield and responsive, scroll-scrubbed 3D memory helix
-- Photo gallery placeholders and secure-media-ready portrait background
+- Four-question interactive birthday quiz (replaces the duplicate photo gallery and old pick-a-star game)
+- Protected-media-ready portrait background; the actual private photos are not in GitHub
 - Animated, mobile-friendly video film reels with an accessible playback dialog
-- Interactive birthday wishes, confetti and subtle visual depth effects
+- Personalized quiz outcome, confetti finale and subtle visual depth effects
 - Continuous background soundtrack using the original SoundCloud upload of **Neene Yendigu** by Nihal Tauro, with click/tap-to-enable fallback and infinite repeat
 - Reduced-motion support, lazy loaded media and transform-based UI animation
 
