@@ -99,3 +99,21 @@ Animation is mostly CSS 3D/transforms plus a scroll-driven requestAnimationFrame
 2. Choose a non-guessable magical-word entry phrase and configure the Cloudflare Worker credentials and rate limits.
 3. Enable authenticated server-side media fetching for the selected Drive photos/videos; verify the Drive folder is restricted.
 4. Purchase an eligible Amazon.in gift card and add its code only to the encrypted Cloudflare Worker secret, never the repo.
+
+## Playable Golden Garden prototype
+
+A new illustrated, mobile-first **2.5D mini-world** is available as `world.html` alongside the existing classic birthday page.
+
+- Walk around the garden with WASD, arrow keys, or the on-screen mobile directional pad.
+- Tap one of five destinations: Cake Pavilion, Sunflower Meadow, Memory Lane, Little Quiz, or Birthday Gift.
+- **Cake:** swipe horizontally or tap to cut a slice; enjoy a confetti burst and a birthday message, then reset to cut again.
+- **Yellow bouquet:** collect five yellow flowers, watch the bouquet grow, and present it.
+- **Memory Lane:** twelve placeholders in the numbered timeline order; in the authenticated build, cards and three videos fetch only `/api/private/*` sources. No Drive IDs are committed.
+- **Quiz:** same personal four questions, friendly answers and apology message; the typed answer never leaves the page.
+- **Gift:** a safe placeholder until the authenticated Worker returns a separately purchased Amazon.in gift card.
+- Keep the soundtrack through the official SoundCloud embed; playback may require a user gesture in mobile browsers.
+- Zero third-party game engine dependencies; all scenery is HTML/CSS/SVG and JS, rendered at the device's resolution. This is a stylized **2.5D prototype**, not a full free-roaming WebGL/Unreal-style 3D world.
+
+**Privacy:** This public world contains illustration-only placeholders. The private Cloudflare build includes `world.html`, `world.css` and `world.js`, adds the authenticated media API hook, and protects the route with the Worker-first gate. Do not merge in real photos or credentials.
+
+The main landing page retains its existing scroll-based experience and links to the playable world; once the user has tested it, the world can replace the main home page if preferred.
