@@ -113,6 +113,8 @@ button,a{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none
 .cake-cut-piece{opacity:0;transform:translate(0,0);transition:transform 1.05s var(--ease),opacity .4s}
 .slicing-area.is-cut .cake-cut-piece{opacity:1;transform:translate(46px,13px)}
 .slicing-area.is-cut .cake-slice-main{filter:brightness(.97)}
+.cake-wedge-gap{transition:opacity .45s ease}
+.slicing-area.is-cut .cake-wedge-gap{opacity:1}
 .slicing-area.is-cut .cake-flames{opacity:0;transition:opacity .4s}
 .cake-slice-swipe{position:absolute;right:15px;bottom:13px;display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.1em;font-weight:800;color:#987445;background:#fffbedb8;border:1px solid #dfc293;padding:8px 12px;border-radius:30px}
 .cake-slice-swipe span:first-child{font-size:21px}
