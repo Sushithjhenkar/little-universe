@@ -4,29 +4,61 @@
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const dataSaver=!!navigator.connection?.saveData;
-const musicButton=$("#music"),sheet=$("#music-sheet"),musicBox=$("#music-player"),closeMusic=$("#music-close");
-const OFFICIAL_VIDEO="9b1DrKv3MXo";
-let musicOpen=false;
-function openMusic(){
- musicOpen=true;sheet.classList.add("open");sheet.setAttribute("aria-hidden","false");sheet.inert=false;
- musicButton.setAttribute("aria-expanded","true");musicButton.textContent="♫ Now playing";const dot=document.createElement("span");dot.className="sound-dot";dot.setAttribute("aria-hidden","true");musicButton.append(dot);
- if(!musicBox.querySelector("iframe")){
-  musicBox.replaceChildren();const iframe=document.createElement("iframe");
-  iframe.title="Neene Yendigu — official Love Mocktail music video";
-  iframe.src="https://www.youtube-nocookie.com/embed/"+OFFICIAL_VIDEO+"?autoplay=1&controls=1&rel=0&playsinline=1";
-  iframe.allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share";
-  iframe.setAttribute("allowfullscreen","");iframe.referrerPolicy="strict-origin-when-cross-origin";
-  musicBox.append(iframe);
- }
+const musicButton=$("#music"),sheet=$("#music-sheet"),closeMusic=$("#music-close"),musicPause=$("#music-pause"),musicState=$("#music-state"),scFrame=$("#soundcloud-frame");
+let widget=null,ready=false,playing=false,userPaused=false,musicOpen=false,autoRetryTimer=0;
+const updateMusicUi=()=>{
+ musicPause.textContent=userPaused?"♫ Resume song":"♫ Pause song";
+ musicPause.setAttribute("aria-pressed",String(userPaused));
+ musicButton.innerHTML="♫ Neene Yendigu <span class=\"sound-dot\" aria-hidden=\"true\"></span>";
+ musicButton.classList.toggle("music-active",playing);
+ musicButton.classList.toggle("music-paused",userPaused);
+ musicState.textContent=userPaused?"Paused":playing?"Playing on repeat ♫":ready?"Waiting for browser audio permission…":"Loading SoundCloud…";
+};
+function toggleMusicPanel(open){
+ musicOpen=open;sheet.classList.toggle("open",open);sheet.setAttribute("aria-hidden",String(!open));sheet.inert=!open;
+ musicButton.setAttribute("aria-expanded",String(open));
 }
-function stopMusic(){
- musicOpen=false;sheet.classList.remove("open");sheet.setAttribute("aria-hidden","true");sheet.inert=true;
- musicButton.setAttribute("aria-expanded","false");musicButton.innerHTML="♫ Neene Yendigu <span class=\"sound-dot\" aria-hidden=\"true\"></span>";
- musicBox.replaceChildren();const holder=document.createElement("div");holder.className="music-placeholder";holder.textContent="♫ Play the official song";musicBox.append(holder);
+function startSoundtrack(){
+ if(!ready||userPaused||playing||!widget)return;
+ widget.play(); // Browser may block this until a user gesture, especially on phones.
 }
-sheet.inert=true;musicButton.addEventListener("click",()=>musicOpen?stopMusic():openMusic());closeMusic.addEventListener("click",stopMusic);
-addEventListener("keydown",e=>{if(e.key==="Escape"&&musicOpen){stopMusic();musicButton.focus()}});
-addEventListener("pointerdown",e=>{if(musicOpen&&!sheet.contains(e.target)&&!musicButton.contains(e.target))stopMusic()});
+function initializeSoundCloud(){
+ if(!window.SC?.Widget||!scFrame){musicState.textContent="SoundCloud unavailable — open the song link";return}
+ widget=window.SC.Widget(scFrame);
+ widget.bind(window.SC.Widget.Events.READY,()=>{
+  ready=true;widget.setVolume(68);updateMusicUi();startSoundtrack();
+  clearTimeout(autoRetryTimer);
+  autoRetryTimer=setTimeout(()=>{if(!playing&&!userPaused){musicState.textContent="Tap anywhere on the page to start audio";}},2600);
+ });
+ widget.bind(window.SC.Widget.Events.PLAY,()=>{playing=true;updateMusicUi()});
+ widget.bind(window.SC.Widget.Events.PAUSE,()=>{playing=false;updateMusicUi()});
+ widget.bind(window.SC.Widget.Events.FINISH,()=>{
+  playing=false; // Rewind and replay the original SoundCloud stream, no audio file hosted here.
+  if(!userPaused){widget.seekTo(0);widget.play()}
+  else updateMusicUi();
+ });
+ widget.bind(window.SC.Widget.Events.ERROR,()=>{playing=false;musicState.textContent="This SoundCloud track couldn't load. Try its original link."});
+}
+sheet.inert=true;updateMusicUi();
+musicButton.addEventListener("click",()=>toggleMusicPanel(!musicOpen));
+closeMusic.addEventListener("click",()=>{toggleMusicPanel(false);musicButton.focus()});
+musicPause.addEventListener("click",()=>{
+ if(userPaused){userPaused=false;playing=false;updateMusicUi();startSoundtrack()}
+ else{userPaused=true;widget?.pause();playing=false;updateMusicUi()}
+});
+addEventListener("keydown",e=>{
+ if(e.key==="Escape"&&musicOpen){toggleMusicPanel(false);musicButton.focus()}
+ if((e.key==="Enter"||e.key===" ")&&!userPaused)startSoundtrack();
+});
+document.addEventListener("pointerdown",()=>{
+ if(!userPaused&&!playing)startSoundtrack();
+},{capture:true,passive:true});
+document.addEventListener("touchstart",()=>{
+ if(!userPaused&&!playing)startSoundtrack();
+},{capture:true,passive:true});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!userPaused)startSoundtrack()});
+addEventListener("pointerdown",e=>{if(musicOpen&&!sheet.contains(e.target)&&!musicButton.contains(e.target))toggleMusicPanel(false)});
+initializeSoundCloud();
 const toast=$("#site-toast");let toastTimer;
 function notify(message){if(!toast)return;toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),3400)}
 const dialog=$("#film-dialog"),player=$("#memory-video"),filmClose=$("#film-close");
