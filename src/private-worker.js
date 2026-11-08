@@ -82,7 +82,7 @@ function mediaIndex(manifest){
  return {
   hero:publicMediaEntry(manifest.hero,files),
   photos:(manifest.photos??[]).map(v=>publicMediaEntry(v,files)).filter(Boolean).slice(0,40),
-  timeline:(manifest.timeline??[]).map(v=>publicMediaEntry(v,files)).filter(Boolean).slice(0,30),
+  timeline:(manifest.timeline??[]).slice(0,30).map(v=>publicMediaEntry(v,files)), // Preserve empty slots; never shift named photos
   videos:(manifest.videos??[]).map(v=>publicMediaEntry(v,files,true)).filter(Boolean).slice(0,20)
  };
 }
