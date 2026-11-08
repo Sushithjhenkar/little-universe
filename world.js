@@ -17,14 +17,14 @@ const messageDialog=$("#message-dialog"),messageTitle=$("#message-title"),messag
 const privateAPI=document.body.dataset.mediaApi==="/api/private/memories";
 const positions={cake:[23,34],flowers:[77,34],memories:[22,83],quiz:[78,83],gift:[50,10]};
 const questNames=["cake","flowers","memories","quiz"];
-const quests=new Set();let player={x:50,y:57},walkToken=0,lastWalk=0,started=false,toastTimeout=null,openPortal=null;
+const quests=new Set();let player={x:50,y:57},walkToken=0,lastWalk=0,started=false,toastTimeout=null,openPortal=null,autoWalking=false;
 const held=new Set();const allDialogs=$$("dialog.world-dialog");let lastActive=null;
 const ease=t=>1-Math.pow(1-t,3);
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 function setPosition(x,y,walk=false){
  player.x=clamp(x,5,95);player.y=clamp(y,15,96);
  avatar.style.left=player.x+"%";avatar.style.top=player.y+"%";
- avatar.classList.toggle("is-walking",walk);
+ avatar.classList.toggle("is-walking",walk||autoWalking);
  const center=$(".world-center-label");if(center){center.style.left=player.x+"%";center.style.top="calc("+player.y+"% + 17px)"}
 }
 function toast(text){
@@ -82,7 +82,7 @@ function positionForPlace(name){
  ];
 }
 function walkTo(x,y,done){
- ++walkToken;const token=walkToken;
+ ++walkToken;autoWalking=true;const token=walkToken;
  const sx=player.x,sy=player.y,dist=Math.hypot(x-sx,y-sy);
  const dur=reduce?30:clamp(dist*13,300,1100);
  let begin=null;avatar.classList.add("is-walking");
@@ -91,7 +91,7 @@ function walkTo(x,y,done){
   if(begin===null)begin=ts;
   const t=clamp((ts-begin)/dur,0,1),p=ease(t);
   setPosition(sx+(x-sx)*p,sy+(y-sy)*p,t<1);
-  if(t<1)requestAnimationFrame(frame);else{avatar.classList.remove("is-walking");done?.()}
+  if(t<1)requestAnimationFrame(frame);else{autoWalking=false;avatar.classList.remove("is-walking");done?.()}
  }
  requestAnimationFrame(frame);
 }
@@ -113,7 +113,7 @@ function canWalk(){return started&&!intro.contains(document.activeElement)&&!act
 document.addEventListener("keydown",event=>{
  if(!canWalk()||event.target.closest("input,textarea,select"))return;
  const direction=keyDirs[event.code];
- if(direction){held.add(direction);event.preventDefault();++walkToken}
+ if(direction){held.add(direction);event.preventDefault();++walkToken;autoWalking=false}
  if(event.code==="Enter"&&document.activeElement===map){
   const near=Object.entries(positions).map(([name])=>({name,loc:positionForPlace(name)})).filter(p=>Math.hypot(p.loc[0]-player.x,p.loc[1]-player.y)<15)[0];
   if(near){event.preventDefault();openDialog(near.name)}
@@ -129,13 +129,13 @@ function walking(ts){
   const dx=(held.has("right")?1:0)-(held.has("left")?1:0);
   const dy=(held.has("down")?1:0)-(held.has("up")?1:0);
   if(dx||dy){const d=Math.hypot(dx,dy);setPosition(player.x+dx/d*26*delta,player.y+dy/d*31*delta,true)}
- }else if(!canWalk()||!held.size){if(!walkToken||held.size===0)avatar.classList.remove("is-walking")}
+ }else if(!canWalk()||!held.size){if(!autoWalking)avatar.classList.remove("is-walking")}
  requestAnimationFrame(walking);
 }
 requestAnimationFrame(walking);
 $$("[data-move]",$("#world-dpad")).forEach(button=>{
  const dir=button.dataset.move;
- button.addEventListener("pointerdown",e=>{if(!started)return;held.add(dir);++walkToken;button.setPointerCapture?.(e.pointerId)});
+ button.addEventListener("pointerdown",e=>{if(!started)return;held.add(dir);++walkToken;autoWalking=false;button.setPointerCapture?.(e.pointerId)});
  const release=()=>held.delete(dir);
  ["pointerup","pointercancel","lostpointercapture"].forEach(type=>button.addEventListener(type,release));
  button.addEventListener("click",()=>{if(!started)return;const d={up:[0,-3],down:[0,3],left:[-3,0],right:[3,0]}[dir];setPosition(player.x+d[0],player.y+d[1])});
