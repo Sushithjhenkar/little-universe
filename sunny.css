@@ -1,0 +1,224 @@
+/* A Little Sunshine — golden birthday palette
+   Butter yellow, soft cream, warm honey, gentle blush.
+   This file intentionally loads AFTER the previous design layers.
+*/
+:root{
+ color-scheme:light;
+ --bg:#fff5c8;
+ --text:#46321c;
+ --muted:#746046;
+ --pink:#b46b3a;
+ --lav:#d4a44e;
+ --sun:#f8c946;
+ --sunshine:#ffe88b;
+ --vanilla:#fffaf0;
+ --honey:#b87524;
+ --brown:#4b3422;
+ --soft-pink:#efb6ad;
+}
+body{background:#fff6cf;color:var(--text)}
+::selection{background:#f8c946;color:#382713}
+.progress{background:linear-gradient(90deg,#dfa225,#f2c95e,#efad8f)}
+.eyebrow{color:#995d21;font-weight:700}
+h1,h2{color:#442b20}
+h2 em{color:#a96533}
+.nav{
+ background:linear-gradient(180deg,#fff7d7f7,#fff5c8e6)!important;
+ border-bottom:1px solid #b88a4340!important;
+ box-shadow:0 8px 40px #a16c3314;
+ backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.nav .brand{color:#4a3219;font-weight:700;font-size:14px}
+.nav .quiet{color:#5b3b1c;border-color:#a46a344f;background:#fff9e4d7;box-shadow:0 5px 20px #9d692321}
+.nav .quiet:hover{background:#fff0ad;box-shadow:0 7px 24px #b57c3829}
+.nav .sound-dot{background:#ce9238;box-shadow:0 0 8px #d2a64a}
+.hero{
+ min-height:100svh;
+ background:
+ radial-gradient(circle at 77% 25%,#fffef0 0%,#fff3be 22%,transparent 52%),
+ radial-gradient(ellipse at 10% 77%,#f4d182b0 0%,transparent 44%),
+ radial-gradient(ellipse at 60% 70%,#ffd28d77,transparent 58%),
+ linear-gradient(145deg,#fff6c6 5%,#ffe9a1 55%,#fff3c5 100%)!important
+}
+.hero:after{background:radial-gradient(ellipse at center,transparent 35%,#a97f2614 90%)!important}
+.hero .eyebrow{color:#99591d;text-shadow:none}
+.hero h1{color:#48301b;text-shadow:none}
+.hero h1 em{color:#bf7a33}
+.hero p{color:#6e5330;font-weight:500}
+.hero .scrollhint{color:#8b6732;font-weight:700}
+.soft-wash i{
+ background:radial-gradient(circle at 35% 30%,#fffdf1db 0%,#ffe39799 32%,#f7c75f44 67%,transparent 72%);
+ filter:blur(17px)
+}
+.soft-wash i:nth-child(2){background:radial-gradient(circle,#d3ce897f,transparent 70%)}
+.soft-wash i:nth-child(3){background:radial-gradient(circle,#f5b68d66,transparent 70%)}
+.primary{
+ background:linear-gradient(120deg,#edb543,#ffdc73,#ffe49a)!important;
+ color:#503217!important;border:1px solid #bd8b3a91!important;
+ box-shadow:0 12px 42px #b67e3066,0 1px 0 #ffffffad inset!important;
+ transition:transform .35s cubic-bezier(.18,1,.25,1),box-shadow .35s ease,filter .35s ease
+}
+.primary:hover{transform:translateY(-4px)!important;box-shadow:0 16px 55px #b27c3873!important;filter:saturate(1.1)}
+.marquee{
+ background:#f2c755!important;color:#5c421f!important;border-color:#ecc06f!important;
+ box-shadow:0 10px 28px #a97c3b2a!important
+}
+.birthday-quiz{
+ background:
+ radial-gradient(ellipse at 15% 34%,#fce8a3 0%,transparent 46%),
+ radial-gradient(ellipse at 80% 80%,#eac7ab8c 0%,transparent 51%),
+ linear-gradient(160deg,#fff9dd,#fff0bc 60%,#fce3ad)!important
+}
+.birthday-quiz:before{
+ background:radial-gradient(circle at 13% 16%,#ffffffaf,transparent 38%),radial-gradient(circle at 85% 70%,#fed77463,transparent 40%)!important
+}
+.birthday-quiz .section-head p{color:#775d42}
+.quiz-doodle{color:#d29d4960;opacity:.68}
+.quiz-doodle-two{color:#d48a6a48}
+.birthday-quiz-card{
+ background:linear-gradient(140deg,#fffef6,#fff9e9 52%,#fff0c9)!important;
+ border:1px solid #d3a25993!important;
+ box-shadow:0 27px 75px #bb83333b,inset 0 2px 0 #fffef4!important
+}
+.birthday-quiz-card:before{background:linear-gradient(145deg,#fffef4aa,transparent 48%,#f6b9401f)!important}
+.quiz-mark{color:#a36926}.quiz-step,.quiz-step small{color:#85551e!important}
+.quiz-progress-track{background:#e1bb7c6e}
+#quiz-progress{background:linear-gradient(90deg,#c89335,#e8b74d,#f7d98c);box-shadow:0 0 16px #f5c55777}
+.quiz-icon{color:#c68e3d;filter:drop-shadow(0 7px 13px #cfab6988)}
+.quiz-stage h3,.quiz-result h3{color:#422d20}
+.quiz-stage>p,.quiz-result>p{color:#806548}
+.quiz-choice{
+ background:#fffdf7;border-color:#b58b5080;color:#563c25;
+ box-shadow:0 4px 14px #9f743311
+}
+.quiz-choice:after{color:#a3743b}
+.quiz-choice:hover,.quiz-choice:focus-visible{background:#ffedae;border-color:#af7727;box-shadow:0 6px 20px #b4863263}
+.quiz-choice.is-chosen{background:#ffdc7f;border-color:#d3a040;color:#4c341b}
+.quiz-footer{color:#916d41;border-top-color:#d7b78d91}.quiz-footer-star{color:#c48a3e}
+.quiz-reflection-label{color:#775018}
+.quiz-reflection-input{background:#fffdf6;border:1px solid #cbaa78;color:#4a3622}
+.quiz-reflection-input::placeholder{color:#ae987b}
+.quiz-reflection-input:focus{outline:2px solid #d7a743}
+.quiz-privacy-note{color:#806749}
+.quiz-continue{background:linear-gradient(110deg,#e7ba54,#ffdf86);color:#49321b;box-shadow:0 5px 15px #b581302a}
+.quiz-continue:hover{background:#ffe48d}
+.quiz-skip{color:#8e6330}.quiz-skip:hover{color:#5b401e}
+.quiz-restart{background:#ffdc85;color:#50361e;border-color:#cf9f4b}
+.quiz-result .quiz-sparkles{color:#c9873a;filter:drop-shadow(0 0 16px #f7d37581)}
+.quiz-live-hint{font-size:13px;color:#905e2c;line-height:1.6;min-height:0;margin:4px 0 0}
+.quiz-choice.quiz-wrong{animation:quiz-wiggle .35s ease}
+.quiz-feedback-dialog{
+ position:fixed;inset:0;margin:auto;
+ max-width:min(480px,calc(100vw - 34px));width:100%;
+ max-height:min(86dvh,670px);padding:0;overflow:visible;
+ border:1px solid #c8994a8a;border-radius:29px;
+ background:linear-gradient(155deg,#fffdf0,#ffedb0 73%,#ffe49c);
+ color:#50361d;box-shadow:0 28px 100px #3e2b19a8,0 0 0 6px #fff9d020;
+ animation:quiz-popup-in .38s cubic-bezier(.2,1,.25,1) both
+}
+.quiz-feedback-dialog::backdrop{background:#332214a8;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.quiz-pop-body{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:36px clamp(23px,6vw,42px) 39px;border-radius:inherit}
+.quiz-pop-body:before{content:"";position:absolute;z-index:-1;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,#ffe9a2,transparent 70%);top:-85px;left:50%;transform:translateX(-50%);pointer-events:none}
+.quiz-pop-emblem{width:76px;height:76px;display:grid;place-items:center;border-radius:50%;margin:0 auto 19px;
+ color:#a66d27;background:linear-gradient(145deg,#ffe5a0,#ffe9c6);border:1px solid #dfad60;
+ box-shadow:0 10px 35px #be882b51;font:38px Georgia,serif
+}
+.quiz-pop-eyebrow{display:block;color:#9b733b;letter-spacing:.18em;font-size:10px;font-weight:700}
+.quiz-pop-body h3{font:500 clamp(29px,6vw,39px)/1.15 "Playfair Display",serif;margin:13px 0 14px;color:#53371e}
+.quiz-pop-body p{line-height:1.8;color:#6b4d2c;font-size:15px;margin:0 auto 25px;max-width:375px}
+.quiz-pop-button{width:100%;border:1px solid #c88d35;border-radius:14px;padding:15px 22px;
+ background:linear-gradient(110deg,#f0bd4b,#ffe095);color:#4a3218;font-weight:700;
+ display:flex;align-items:center;justify-content:center;gap:13px;cursor:pointer;
+ transition:transform .2s,box-shadow .2s}
+.quiz-pop-button:hover{transform:translateY(-2px);box-shadow:0 9px 27px #ba843b4d}
+.quiz-confetti-hearts{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:3}
+.quiz-heart-pop{position:absolute;left:50%;top:32%;color:#da9656;font-size:18px;opacity:0;will-change:transform,opacity;
+ animation:quiz-heartburst 1.15s ease-out var(--delay) forwards}
+.quiz-heart-pop:nth-child(3n){color:#e6b5ab}.quiz-heart-pop:nth-child(4n){color:#d7ba4f}
+.cosmos-timeline{
+ background:radial-gradient(ellipse at 58% 44%,#6a4b2a 0%,#4b3421 51%,#302219 100%)!important
+}
+.cosmos-sticky:before{background:radial-gradient(ellipse at 73% 49%,transparent 12%,#2d1f17b7 83%)!important}
+.cosmos-copy .eyebrow{color:#fbe49d}
+.cosmos-copy h2{color:#fff4d5}.cosmos-copy h2 em{color:#f6c968}
+.cosmos-copy p,.cosmos-detail span{color:#ead4ad}
+.cosmos-detail strong{color:#fff2d2}
+.cosmos-counter strong{color:#ffe49c}
+.cosmos-counter{color:#e9d2aa}
+.cosmos-progress span{background:linear-gradient(90deg,#fbe89c,#e7ae57)}
+.cosmos-ambient i{background:radial-gradient(circle,#e9b95b55,transparent 68%)!important}
+.cosmos-ambient i:nth-child(2){background:radial-gradient(circle,#fff4c236,transparent 68%)!important}
+.cosmos-card{border-color:#ffe2a5!important;background:#594029!important;box-shadow:0 25px 45px #2e211ad6}
+.cosmos-art{background:radial-gradient(ellipse at 19% 23%,#ffedb29c,transparent 44%),radial-gradient(ellipse at 76% 74%,#ecaf6e92,transparent 58%),linear-gradient(135deg,#ca984e,#674c2d)!important}
+.cosmos-art b{color:#fff1c7}
+.cosmos-label{color:#fff9db}
+.cosmos-mobile-nav>span{color:#f8e4be}
+.cosmos-nav-button{border-color:#f6cf8f;color:#fff0c3;background:#ffe3a81f}
+.video-chapter{
+ background:
+ radial-gradient(ellipse at 66% 15%,#fffdf5ad,transparent 48%),
+ radial-gradient(ellipse at 16% 74%,#f7c67373,transparent 50%),
+ linear-gradient(180deg,#fff2bb,#ffe5a4 52%,#ffe2a3)!important
+}
+.video-chapter .section-head h2{color:#543a1e}
+.video-chapter .section-head p{color:#7d6142}
+.video-aura{background:radial-gradient(circle,#fff7d780,transparent 67%)!important}
+.film-card{background:#fffef3d9;border-color:#d8aa5d8c;box-shadow:0 22px 65px #b98d4652;color:#583c24}
+.film-card:hover{background:#fffdfa;border-color:#b6772b;box-shadow:0 24px 65px #be87486b}
+.film-one{background:linear-gradient(145deg,#f8ce83,#b37f56 80%)}.film-two{background:linear-gradient(145deg,#f5d18a,#be9563 80%)}.film-three{background:linear-gradient(145deg,#f7df99,#c99462 75%)}
+.film-count{color:#fff8dc;text-shadow:0 2px 9px #4c3125}
+.film-meta strong{color:#5d4128}
+.film-meta small,.film-hint{color:#856645}
+.film-play{background:#fffbd84a;border-color:#fff9e4;color:#fff}
+.finale{
+ background:radial-gradient(ellipse at 50% 45%,#ffe7a1 3%,#ffefbb 48%,#ffe3a0 100%)!important
+}
+.final-glow{background:radial-gradient(circle,#fff9d0e0,transparent 70%)}
+.final-inner h2{color:#493119}.final-inner h2 em{color:#a96632}
+.final-inner .eyebrow{color:#915d22}
+.final-inner>p{color:#745330}
+.closing-letter{border-top:1px solid #b5823f99;border-bottom:1px solid #b5823f99}
+.closing-letter p{color:#61462d}
+.gift-reveal{background:#fffdf3b8;border-color:#d8aa6499;box-shadow:0 23px 70px #be90515e}
+.gift-reveal h3{color:#4c361e}
+.gift-reveal>p,.gift-reveal .gift-note{color:#75583d}
+.gift-envelope{background:linear-gradient(135deg,#fff9e4,#f1c26d);box-shadow:0 15px 32px #b18d5666}
+.gift-envelope:before{background:#f4cb7b}.gift-envelope:after{background:#e4ae60}
+.gift-envelope-heart{color:#a1612c}
+.gift-claim{background:#fff8e8;border-color:#c69650;color:#543b26}
+.gift-claim label{color:#795633}.gift-code{color:#3d281b}
+.gift-action{background:#f7ce72;color:#4b3320}
+.gift-claim a{color:#8c5c24}
+.finale .small{color:#8b6b47}
+footer{background:#ffe3a3;border-color:#d2a25966;color:#8d673c}
+.music-sheet{background:linear-gradient(140deg,#3d2b1d,#231a17);border-color:#ecc58085;color:#fff4e3}
+.music-kicker{color:#ffe2a2!important}
+.music-top small,.music-state,.music-note{color:#e3d0b1}
+.music-control{background:#ffd96d;color:#4b321f}
+.soundcloud-iframe{color-scheme:dark}
+.portrait-backdrop.is-ready{opacity:.37}
+.portrait-wash{background:linear-gradient(90deg,#fff5c2ed 0%,#ffedb4c7 40%,#fff4c25a 78%),linear-gradient(0deg,#fff7d0aa,transparent,#fff4bf88)!important}
+body.has-portrait .hero h1,body.has-portrait .hero p{color:#473221}
+@keyframes quiz-popup-in{from{opacity:0;transform:translateY(22px) scale(.93)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes quiz-heartburst{0%{opacity:0;transform:rotate(var(--angle)) translateY(0) scale(.6)}
+ 15%{opacity:1}85%{opacity:.88}
+ 100%{opacity:0;transform:rotate(var(--angle)) translateY(calc(var(--distance) * -1)) scale(1.2)}}
+@keyframes quiz-wiggle{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-2px)}}
+@media(max-width:800px){
+ .cosmos-timeline{background:#4c3425!important}
+ .cosmos-timeline .cosmos-sticky:before{background:linear-gradient(180deg,#4c3425 0%,#4c342500 37%,#4c342554 75%,#4c3425e8 100%)!important}
+ .cosmos-card{box-shadow:0 13px 28px #20150fc7}
+}
+@media(max-width:650px){
+ .nav{height:65px;padding:0 17px!important}
+ .nav .brand{font-size:12px}
+ .hero h1{font-size:clamp(44px,11vw,62px)}
+ .birthday-quiz-card{background:#fff9e8f5!important}
+ .quiz-feedback-dialog{border-radius:23px}
+ .quiz-pop-body{padding:30px 22px 32px}
+ .quiz-pop-body p{font-size:14px}
+ .closing-letter p{color:#694b30}
+}
+@media(prefers-reduced-motion:reduce){
+ .quiz-feedback-dialog,.quiz-heart-pop,.quiz-choice.quiz-wrong{animation:none!important}
+}
