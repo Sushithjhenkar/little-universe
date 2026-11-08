@@ -51,7 +51,7 @@ function animate(timestamp){
  lastFrameTime=timestamp;
  if(!dragging&&timestamp>quietUntil){
   angle=(angle+elapsed*(.017+boost))%360;
-  if(boost>0)boost=Math.max(0,boost-elapsed*.000016);
+  if(boost>0)boost=Math.max(0,boost-elapsed*.00005);
   paint();
  }
  frame=requestAnimationFrame(animate);
@@ -109,7 +109,7 @@ function petals(){
 }
 function celebrate(){
  celebrations++;
- boost=.30;quietUntil=0;
+ boost=.10;quietUntil=0;
  caption.textContent=messages[celebrations%messages.length];
  petals();start();
 }
