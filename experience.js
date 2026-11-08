@@ -62,6 +62,7 @@ initializeSoundCloud();
 const toast=$("#site-toast");let toastTimer;
 function notify(message){if(!toast)return;toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),3400)}
 const dialog=$("#film-dialog"),player=$("#memory-video"),filmClose=$("#film-close");
+let resumeMusicAfterFilm=false;
 const media={hero:null,photos:[],timeline:[],videos:[]};
 function cleanUrl(url){
  if(typeof url!=="string"||!url.trim())return null;
@@ -111,11 +112,17 @@ $$(".film-card").forEach(card=>card.addEventListener("click",()=>{
  const title=$(".film-meta strong",card)?.textContent??"A memory in motion";
  $("#film-dialog-title").textContent=title;player.src=src;
  const poster=$(".film-visual img",card);if(poster)player.poster=poster.src;else player.removeAttribute("poster");
+ resumeMusicAfterFilm=!userPaused;
+ if(widget)widget.pause(); // prevent song + memory video audio from overlapping
  dialog.showModal();player.play().catch(()=>{/* user can press play using video controls */});
 }));
 function stopFilm(){player.pause();player.removeAttribute("src");player.load();if(dialog.open)dialog.close()}
 filmClose.addEventListener("click",stopFilm);
-dialog.addEventListener("close",()=>{player.pause();player.removeAttribute("src");player.load()});
+dialog.addEventListener("close",()=>{
+ player.pause();player.removeAttribute("src");player.load();
+ if(resumeMusicAfterFilm&&!userPaused){playing=false;startSoundtrack()}
+ resumeMusicAfterFilm=false;
+});
 dialog.addEventListener("click",e=>{if(e.target===dialog)stopFilm()});
 const hero=$(".hero-inner"),portrait=$(".portrait-backdrop img");
 if(!reduced&&!dataSaver&&matchMedia("(hover:hover) and (pointer:fine)").matches&&hero){
