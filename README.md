@@ -8,10 +8,10 @@ https://little-universe.sushithjhenkar.workers.dev/
 ## What's included
 - Cinematic hero with lightweight CSS 3D planet and orbit effects
 - Ambient starfield and responsive, scroll-scrubbed 3D memory helix
-- Four-question interactive birthday quiz (replaces the duplicate photo gallery and old pick-a-star game)
+- Personal four-question birthday quiz: meeting in college, first message, an optional private reflection, and a cheeky optional question
 - Protected-media-ready portrait background; the actual private photos are not in GitHub
 - Animated, mobile-friendly video film reels with an accessible playback dialog
-- Personalized quiz outcome, confetti finale and subtle visual depth effects
+- Warm friendship-and-relationship aesthetic, a gentle birthday letter, an animated gift envelope and confetti
 - Continuous background soundtrack using the original SoundCloud upload of **Neene Yendigu** by Nihal Tauro, with click/tap-to-enable fallback and infinite repeat
 - Reduced-motion support, lazy loaded media and transform-based UI animation
 
@@ -82,3 +82,11 @@ If your Cloudflare project is connected to the `main` branch, pushing to `main` 
 
 ## Performance
 Animation is mostly CSS 3D/transforms plus a scroll-driven requestAnimationFrame loop. Reduced-motion preferences are respected. Video files only load on click, and the YouTube iframe is created **only** if someone opens the player. Aim for modern AVIF/WebP posters and appropriately resized images when adding Drive media.
+
+## Personal birthday update
+
+The site now has a warmer, friendship-and-relationship-inspired design rather than a stardust/outer-space theme. The four questions are: first meeting in college (2019), original Happy Birthday/Thank You chat, a **skippable typed reflection** about the breakup, and a playful Yes / Option A question with a **skippable** choice. Nothing is scored, saved or sent.
+
+The final birthday letter acknowledges missing the old closeness and quietly hoping for a future together without asking for an answer.
+
+The **Make a Wish & Open Your Gift** button reveals a birthday envelope. The public preview only shows a placeholder, never a real gift code. In the protected Cloudflare deployment you may optionally configure the encrypted secret `BIRTHDAY_GIFT_CODE` after buying a legitimate Amazon.in gift card; then an authenticated click requests `GET /api/private/gift` and shows the code with a copy button and the official Amazon.in redemption page. **Never commit this code to GitHub, embed it in HTML, or put it in public Drive.** This is only a demo until a card is actually purchased.
