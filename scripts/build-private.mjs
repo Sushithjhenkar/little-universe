@@ -3,7 +3,7 @@ import {join} from "node:path";
 const dest="dist";
 await rm(dest,{recursive:true,force:true});
 await mkdir(dest,{recursive:true});
-const files=["styles.css","cinematic.css","experience.css","quiz.css","warm.css","script.js","cinematic.js","experience.js","quiz.js","gift.js"];
+const files=["styles.css","cinematic.css","experience.css","quiz.css","warm.css","sunny.css","cake.css","script.js","cinematic.js","experience.js","quiz.js","gift.js","cake.js"];
 for(const file of files)await copyFile(file,join(dest,file));
 let html=await readFile("index.html","utf8");
 if(!html.includes("<body>"))throw new Error("Could not find <body> in public HTML");
