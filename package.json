@@ -1,0 +1,14 @@
+{
+  "name": "little-universe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:private": "node scripts/build-private.mjs",
+    "dev:private": "npm run build:private && wrangler dev --config wrangler.private.jsonc",
+    "deploy:private": "npm run build:private && wrangler deploy --config wrangler.private.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
