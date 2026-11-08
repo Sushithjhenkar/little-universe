@@ -1,6 +1,6 @@
-# ✦ A Little Universe Called You
+# ♡ Some Bonds Stay Golden
 
-An animated, mobile-first birthday experience deployed through Cloudflare. This repository contains **presentation code and generic placeholders only**. Personal photos and private memories are **not** included.
+An animated, mobile-first birthday story with a sunshine-yellow design, memories, and a private launch plan. This repository contains **presentation code and generic placeholders only**. Personal photos and private memories are **not** included.
 
 ## Live website
 https://little-universe.sushithjhenkar.workers.dev/
