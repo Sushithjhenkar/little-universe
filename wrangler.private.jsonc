@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "little-universe-private-preview",
+  "name": "some-bonds-stay-golden-private-preview",
   "main": "src/private-worker.js",
   "compatibility_date": "2026-11-07",
   "assets": {
