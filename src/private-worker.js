@@ -116,7 +116,7 @@ async function serveMedia(request,env,manifest,key){
  const file=manifest.files?.[key];
  if(!file||!/^[-_a-zA-Z0-9]{10,120}$/.test(file.id||""))return new Response("Not found",{status:404});
  const mime=file.mime||"image/jpeg";
- const allowed=["image/jpeg","image/png","image/webp","image/avif","video/mp4"];
+ const allowed=["image/jpeg","image/png","image/webp","image/avif","image/heif","video/mp4"];
  if(!allowed.includes(mime))return new Response("Unsupported format",{status:415});
  try{
   const token=await googleAccessToken(env);
