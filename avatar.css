@@ -23,9 +23,11 @@
 .avatar-arm:after{content:"";position:absolute;bottom:-6px;left:3px;width:9px;height:10px;background:#d7a07e;border-radius:6px 6px 8px 8px}
 .avatar-feet{left:21px;bottom:0;width:30px;height:14px;border-left:11px solid #58452e;border-right:11px solid #58452e;z-index:0}
 .avatar-spark{font-size:24px;color:#fff7bc;text-shadow:0 0 8px #cb8d38;right:-13px;top:-13px}
-.world-avatar[data-facing="left"] .avatar-body{transform:rotateY(-22deg)}
-.world-avatar[data-facing="right"] .avatar-body{transform:rotateY(22deg)}
-.world-avatar[data-facing="up"] .avatar-face{opacity:.16}
+.avatar-rotation{position:relative;width:70px;height:102px;transform-style:preserve-3d;transition:transform .19s ease-out}
+.world-avatar[data-facing="left"] .avatar-rotation{transform:rotateY(-23deg)}
+.world-avatar[data-facing="right"] .avatar-rotation{transform:rotateY(23deg)}
+.world-avatar[data-facing="up"] .avatar-rotation{transform:rotateY(180deg)}
+.world-avatar[data-facing="up"] .avatar-face{opacity:.14}
 .world-avatar.is-walking .avatar-body{animation:walk-bob .24s ease-in-out infinite alternate}
 .world-avatar.is-walking .avatar-dupatta{animation:dupatta-sway .29s ease-in-out infinite alternate}
 .world-avatar.is-walking .avatar-feet{animation:tiny-steps .22s linear infinite alternate}
