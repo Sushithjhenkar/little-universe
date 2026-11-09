@@ -1,0 +1,5 @@
+# Upload only the public site. Never upload repository settings, scripts, or secrets.
+*
+!index.html
+!*.css
+!*.js
