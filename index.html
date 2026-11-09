@@ -1,163 +1,148 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fae29a">
-<meta name="description" content="A little golden birthday garden to explore, play, and remember.">
-<title>The Golden Garden | Some Bonds Stay Golden</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="world.css?v=golden-world-2"><link rel="stylesheet" href="avatar.css?v=golden-world-2">
-<script src="https://w.soundcloud.com/player/api.js" defer></script>
-<script src="world.js?v=golden-world-2" defer></script>
-</head>
-<body>
-<div class="sky-light sky-light-one" aria-hidden="true"></div><div class="sky-light sky-light-two" aria-hidden="true"></div>
-<header class="world-header">
- <div class="world-brand"><span class="brand-flower">✿</span><span>Some Bonds <em>Stay Golden</em></span></div>
- <div class="world-header-actions">
-  <button id="music-toggle" class="ui-chip" type="button" aria-pressed="false" aria-label="Play background music"><span aria-hidden="true">♫</span><span id="music-label">Music starting…</span></button>
-  <a class="ui-chip world-back" href="classic.html" aria-label="Open classic birthday site">Classic story <span aria-hidden="true">↗</span></a>
- </div>
-</header>
-<main class="world-shell">
- <section class="world-heading" aria-labelledby="world-title">
-  <div class="eyebrow">A playable birthday adventure <span>·</span> Made just for you</div>
-  <h1 id="world-title">Welcome to your<br><em>golden little world.</em></h1>
-  <p>Walk through the garden, cut your birthday cake, gather yellow flowers, and discover the moments that make this day yours.</p>
- </section>
- <section class="world-experience" aria-label="Interactive golden birthday garden">
-  <div class="world-topbar"><div class="world-date"><span aria-hidden="true">♡</span> THE GOLDEN GARDEN</div><div class="world-progress"><span id="quests-count">0 of 4 moments</span><div class="progress-track" aria-hidden="true"><span id="quests-progress"></span></div></div></div>
-  <div id="world-map" class="world-map" tabindex="0" aria-label="Interactive map. Use arrow keys or WASD to walk; tap a place to visit.">
-   <div class="world-sky" aria-hidden="true"><div class="world-sun"></div><div class="world-cloud cloud-one"></div><div class="world-cloud cloud-two"></div><div class="world-cloud cloud-three"></div><div class="world-hills hill-one"></div><div class="world-hills hill-two"></div></div>
-   <div class="garden-depth" aria-hidden="true"></div>
-   <div class="garden-ground" aria-hidden="true"><div class="garden-paths"><svg viewBox="0 0 1000 620" preserveAspectRatio="none"><path d="M500 340 C420 315 370 255 225 245 S105 130 235 142 M500 340 C585 295 625 250 773 245 S920 132 779 140 M500 340 C426 404 367 455 221 469 S104 530 218 532 M500 340 C590 399 659 447 782 460 S925 536 777 532" stroke="#e7be76" stroke-width="47" fill="none" opacity=".73" stroke-linecap="round"/><path d="M500 340 C420 315 370 255 225 245 S105 130 235 142 M500 340 C585 295 625 250 773 245 S920 132 779 140 M500 340 C426 404 367 455 221 469 S104 530 218 532" stroke="#fff2bd" stroke-width="25" fill="none" opacity=".76" stroke-linecap="round"/></svg></div><div id="garden-sprinkles" class="garden-sprinkles"></div></div>
-   <div class="world-top-glimmer" aria-hidden="true"></div>
-   <button class="world-place place-cake" data-place="cake" style="--px:23%;--py:27%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-cake-art" aria-hidden="true"><span class="cake-icon-candle"></span><span class="cake-icon-icing"></span><span class="cake-icon-body"></span><span class="cake-icon-plate"></span></span><span class="place-name">The Cake Pavilion</span><small>Cut the cake 🎂</small></button>
-   <button class="world-place place-flowers" data-place="flowers" style="--px:77%;--py:27%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-flowers-art" aria-hidden="true"><span class="flower-icon fi-one">✿</span><span class="flower-icon fi-two">✿</span><span class="flower-icon fi-three">✿</span><span class="flower-icon fi-four">✿</span></span><span class="place-name">Sunflower Meadow</span><small>Gather a bouquet 💐</small></button>
-   <button class="world-place place-memories" data-place="memories" style="--px:22%;--py:76%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-photo-art" aria-hidden="true"><span class="photo-icon photo-back"><span>♡</span></span><span class="photo-icon photo-front"><span>☺</span></span></span><span class="place-name">Memory Lane</span><small>A walk through our story</small></button>
-   <button class="world-place place-quiz" data-place="quiz" style="--px:78%;--py:76%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-letter-art" aria-hidden="true"><span class="envelope-back"></span><span class="envelope-heart">♥</span></span><span class="place-name">The Little Quiz</span><small>Four questions</small></button>
-   <button class="world-place place-gift" data-place="gift" style="--px:50%;--py:17%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-gift-art" aria-hidden="true"><span class="gift-box-art">🎁</span></span><span class="place-name">Your Birthday Gift</span><small>A sweet little surprise</small></button>
-   <div id="world-avatar" class="world-avatar" style="left:50%;top:57%" aria-hidden="true"><div class="avatar-shadow"></div><div class="avatar-rotation"><div class="avatar-body"><span class="avatar-curls curls-left"></span><span class="avatar-curls curls-right"></span><span class="avatar-hair"></span><span class="avatar-face"><span class="avatar-bindi"></span><i></i><i></i><b></b><img class="avatar-face-portrait" alt="" hidden></span><span class="avatar-earring earring-left"></span><span class="avatar-earring earring-right"></span><span class="avatar-dress"></span><span class="avatar-dupatta"></span><span class="avatar-arm arm-left"></span><span class="avatar-arm arm-right"></span><span class="avatar-feet"></span></div></div><span class="avatar-spark">♡</span></div>
-   <div class="world-center-label" aria-hidden="true">YOU ARE HERE</div>
-   <div class="world-map-guide"><span>✦ Tap a place to explore</span><span>← ↑ ↓ → or WASD to walk</span></div>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#fff0aa"><title>Some Bonds Stay Golden 💛</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="cinematic.css?v=mobile-fix-2"><link rel="stylesheet" href="experience.css"><link rel="stylesheet" href="quiz.css?v=story-3"><link rel="stylesheet" href="warm.css"><link rel="stylesheet" href="sunny.css?v=sunshine1"><link rel="stylesheet" href="cake.css?v=sunshine1"><link rel="stylesheet" href="celebration.css?v=cinematic-1"></head>
+<body><div class="portrait-backdrop" aria-hidden="true"><img id="hero-portrait" alt="" decoding="async" fetchpriority="high"><div class="portrait-wash"></div></div><div class="progress" id="progress"></div><header class="nav"><span class="brand">♡ some bonds stay golden</span><button id="music" class="quiet" type="button" aria-expanded="false" aria-controls="music-sheet">♫ Neene Yendigu <span class="sound-dot" aria-hidden="true"></span></button></header>
+<main><section class="hero section"><div class="soft-wash" aria-hidden="true"><i></i><i></i><i></i></div><div class="hero-flower-rain" aria-hidden="true"><span>✿</span><span>❀</span><span>✻</span><span>✿</span><span>♡</span><span>❀</span></div><div class="hero-inner"><span class="eyebrow reveal">For the girl who loves sunshine &amp; yellow</span><h1 class="reveal">Some people make<br>ordinary days <em>special.</em></h1><p class="reveal">A little sunshine, the memories we made, and a birthday wish — just for you.</p><div class="hero-action-pair"><a href="#memories" class="primary reveal">Walk through our memories <span>↘</span></a><a href="#birthday-cake" class="world-invite reveal">A birthday surprise <span aria-hidden="true">✿</span></a></div></div><span class="scrollhint">SCROLL TO EXPLORE ↓</span></section>
+<div class="marquee" aria-hidden="true"><div class="marquee-track">♡ SHARED LAUGHTER &nbsp; · &nbsp; LITTLE ADVENTURES &nbsp; · &nbsp; BIRTHDAY SMILES &nbsp; · &nbsp; GOOD OLD DAYS &nbsp; · &nbsp; ♡ SHARED LAUGHTER &nbsp; · &nbsp; LITTLE ADVENTURES &nbsp; · &nbsp; BIRTHDAY SMILES &nbsp; · &nbsp; GOOD OLD DAYS &nbsp; · &nbsp;</div></div><section id="memories" class="section birthday-quiz" aria-labelledby="quiz-heading">
+<div class="quiz-doodle quiz-doodle-one" aria-hidden="true">♡</div><div class="quiz-doodle quiz-doodle-two" aria-hidden="true">❀</div>
+<div class="section-head reveal"><span class="eyebrow">01 / A LITTLE GAME</span><h2 id="quiz-heading">How well do you <em>remember?</em></h2><p>Four questions about us — some silly, some sincere. You can always skip the personal ones.</p></div>
+<div class="birthday-quiz-card reveal" id="birthday-quiz-card">
+<div class="quiz-top"><span class="quiz-mark">♡ A WALK DOWN MEMORY LANE</span><span class="quiz-step" id="quiz-step">01 <small>/ 04</small></span></div>
+<div class="quiz-progress-track"><span id="quiz-progress" style="width:25%"></span></div>
+<div class="quiz-stage" id="quiz-stage"><div class="quiz-icon" aria-hidden="true">♡</div><h3 id="quiz-question">When did we first meet?</h3><p id="quiz-description">A little trip back to the beginning…</p><div id="quiz-options" class="quiz-options" role="group" aria-label="Choose an answer">
+<button class="quiz-choice" type="button" disabled>Loading the little game…</button></div></div>
+<div id="quiz-result" class="quiz-result" hidden><div class="quiz-sparkles" aria-hidden="true">♡ ☺ ♡</div><span class="eyebrow">THANK YOU FOR PLAYING</span><h3 id="quiz-result-heading">Thank you for remembering with me.</h3><p id="quiz-result-message"></p><button id="quiz-restart" class="quiz-restart" type="button">Play again ↻</button></div>
+<div class="quiz-footer"><span>OUR LITTLE MEMORIES</span><span class="quiz-footer-star" aria-hidden="true">♡</span></div>
+</div><dialog id="quiz-feedback" class="quiz-feedback-dialog" aria-labelledby="feedback-heading" aria-describedby="feedback-message">
+  <div class="quiz-pop-body"><div id="feedback-decoration" class="quiz-pop-emblem" aria-hidden="true">♡</div>
+    <span class="quiz-pop-eyebrow">A LITTLE MEMORY</span><h3 id="feedback-heading">You got it!</h3><p id="feedback-message">Some memories never fade.</p>
+    <button id="feedback-continue" type="button" class="quiz-pop-button">Keep going <span aria-hidden="true">→</span></button>
   </div>
-  <div class="world-controls">
-   <div class="controls-hint"><span class="controls-heart">♡</span> Every little moment counts <span class="controls-divider">·</span> Explore in any order</div>
-   <div id="world-dpad" class="world-dpad" aria-label="Walk around the garden"><div id="garden-joystick" class="garden-joystick" role="group" aria-label="Drag joystick to walk"><span class="joystick-arrows" aria-hidden="true">✦</span><span id="joystick-thumb" class="joystick-thumb" aria-hidden="true">♡</span></div><div class="dpad-fallback" aria-label="Directional buttons"><button data-move="left" aria-label="Walk left">←</button><button data-move="up" aria-label="Walk up">↑</button><button data-move="down" aria-label="Walk down">↓</button><button data-move="right" aria-label="Walk right">→</button></div></div>
+</dialog></section><section class="cosmos-timeline" id="journey" aria-label="Interactive three dimensional memory timeline">
+<div class="cosmos-track"><div class="cosmos-sticky"><div class="cosmos-ambient" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="cosmos-copy"><span class="eyebrow">02 / THE MEMORIES WE SHARE</span><h2>A story told<br>in <em>moments.</em></h2><p>A few memories that still make me smile. Scroll or swipe through the photos.</p><div class="cosmos-counter"><strong id="memory-index">01</strong><span> / 12 memories</span></div><div class="cosmos-progress"><span id="memory-progress"></span></div></div>
+<div class="cosmos-scene" id="cosmos-scene" aria-label="Memory cards arranged in a 3D spiral"><div class="cosmos-ribbon" id="cosmos-ribbon" aria-hidden="true"></div>
+<div class="cosmos-card-set" id="cosmos-cards">
+<article class="cosmos-card" data-title="The first hello" data-caption="Where our story began." style="--n:0;--h:330"><div class="cosmos-art"><b>♡</b><span>01</span></div><div class="cosmos-label">The first hello</div></article>
+<article class="cosmos-card" data-title="A random Tuesday" data-caption="Ordinary days can be extraordinary." style="--n:1;--h:265"><div class="cosmos-art"><b>☕</b><span>02</span></div><div class="cosmos-label">A random Tuesday</div></article>
+<article class="cosmos-card" data-title="That laugh" data-caption="The one you wish you could replay." style="--n:2;--h:25"><div class="cosmos-art"><b>☺</b><span>03</span></div><div class="cosmos-label">That laugh</div></article>
+<article class="cosmos-card" data-title="A little adventure" data-caption="Collecting stories along the way." style="--n:3;--h:195"><div class="cosmos-art"><b>❀</b><span>04</span></div><div class="cosmos-label">A little adventure</div></article>
+<article class="cosmos-card" data-title="Earlier days" data-caption="The memories from way back when." style="--n:4;--h:45"><div class="cosmos-art"><b>☼</b><span>05</span></div><div class="cosmos-label">Earlier days</div></article>
+<article class="cosmos-card" data-title="The silly moments" data-caption="Small jokes. Big smiles." style="--n:5;--h:290"><div class="cosmos-art"><b>♥</b><span>06</span></div><div class="cosmos-label">The silly moments</div></article>
+<article class="cosmos-card" data-title="Somewhere new" data-caption="The world is better explored together." style="--n:6;--h:165"><div class="cosmos-art"><b>❁</b><span>07</span></div><div class="cosmos-label">Somewhere new</div></article>
+<article class="cosmos-card" data-title="The unexpected" data-caption="The best stories are never planned." style="--n:7;--h:345"><div class="cosmos-art"><b>♪</b><span>08</span></div><div class="cosmos-label">The unexpected</div></article>
+<article class="cosmos-card" data-title="The little things" data-caption="The details that make a day." style="--n:8;--h:210"><div class="cosmos-art"><b>❥</b><span>09</span></div><div class="cosmos-label">The little things</div></article>
+<article class="cosmos-card" data-title="Another sunset" data-caption="A moment to remember." style="--n:9;--h:10"><div class="cosmos-art"><b>☀</b><span>10</span></div><div class="cosmos-label">Another sunset</div></article>
+<article class="cosmos-card" data-title="The good days" data-caption="Here's to more of them." style="--n:10;--h:280"><div class="cosmos-art"><b>♡</b><span>11</span></div><div class="cosmos-label">The good days</div></article>
+<article class="cosmos-card" data-title="What's next" data-caption="A whole new year of possibilities." style="--n:11;--h:55"><div class="cosmos-art"><b>∞</b><span>12</span></div><div class="cosmos-label">What's next</div></article>
+</div></div><div class="cosmos-detail" aria-live="polite"><strong id="memory-title">The first hello</strong><span id="memory-caption">Where this little universe began.</span></div><div class="cosmos-mobile-nav" aria-label="Memory timeline controls"><button class="cosmos-nav-button" id="memory-prev" type="button" aria-label="Previous memory">←</button><span>SWIPE OR SCROLL</span><button class="cosmos-nav-button" id="memory-next" type="button" aria-label="Next memory">→</button></div><span class="cosmos-scroll">SCROLL THROUGH THE GOOD OLD DAYS ↓</span></div></div></section><section class="section video-chapter" id="film-reel" aria-labelledby="film-heading">
+<div class="video-aura" aria-hidden="true"></div><div class="section-head reveal"><span class="eyebrow">03 / LITTLE MOVING MOMENTS</span><h2 id="film-heading">Some days deserve a <em>replay.</em></h2><p>A small collection of laughs, adventures, and days worth remembering.</p></div>
+<div class="filmstrip" id="filmstrip">
+<button class="film-card reveal" type="button" data-video-slot="0" aria-label="Open chapter one video"><div class="film-visual film-one"><span class="film-count">REEL / 01</span><span class="film-play" aria-hidden="true">▶</span><span class="film-grain"></span></div><span class="film-meta"><strong>Little adventures</strong><small>Volume I · A memory in motion</small></span></button>
+<button class="film-card reveal" type="button" data-video-slot="1" aria-label="Open chapter two video"><div class="film-visual film-two"><span class="film-count">REEL / 02</span><span class="film-play" aria-hidden="true">▶</span><span class="film-grain"></span></div><span class="film-meta"><strong>The funny moments</strong><small>Volume II · Press play to relive</small></span></button>
+<button class="film-card reveal" type="button" data-video-slot="2" aria-label="Open chapter three video"><div class="film-visual film-three"><span class="film-count">REEL / 03</span><span class="film-play" aria-hidden="true">▶</span><span class="film-grain"></span></div><span class="film-meta"><strong>Days to remember</strong><small>Volume III · The days we shared</small></span></button></div>
+<p class="film-hint" id="film-hint" aria-live="polite">🎞️ The screen is ready. We'll add the memories when you choose the videos.</p></section><section id="birthday-cake" class="section cake-section" aria-labelledby="cake-heading">
+  <div class="cake-ambient" aria-hidden="true"><span class="cake-shape cake-shape-a">✿</span><span class="cake-shape cake-shape-b">♡</span><span class="cake-shape cake-shape-c">❀</span><span class="cake-shape cake-shape-d">♡</span></div>
+  <div class="section-head reveal"><span class="eyebrow">04 / A LITTLE CELEBRATION</span><h2 id="cake-heading">Make a wish,<br><em>birthday girl.</em></h2>
+  <p>Your very own three-tier golden cake. Give it a spin, then cut the first slice. Make a wish while the candles glow.</p></div>
+  <div class="cake-showcase reveal">
+    <div class="cake-glow" aria-hidden="true"></div>
+    <div class="cake-stage" id="cake-stage" role="img" aria-label="A rotating three-tier 3D yellow birthday cake with glowing candles and pastel frosting.">
+      <div class="cake-3d" id="cake-3d" aria-hidden="true">
+        <div class="cake-plate"></div><div class="cake-tier cake-bottom" data-radius="122" data-height="85" data-y="81" data-kind="bottom"></div>
+        <div class="cake-tier cake-middle" data-radius="94" data-height="74" data-y="2" data-kind="middle"></div>
+        <div class="cake-tier cake-top" data-radius="66" data-height="59" data-y="-65" data-kind="top"></div>
+        <div class="cake-candle-group">
+          <div class="cake-candle candle-one"><div class="candle-wick"></div><span class="candle-flame"></span></div>
+          <div class="cake-candle candle-two"><div class="candle-wick"></div><span class="candle-flame"></span></div>
+          <div class="cake-candle candle-three"><div class="candle-wick"></div><span class="candle-flame"></span></div>
+        </div>
+      </div>
+      <div class="cake-stage-shadow" aria-hidden="true"></div>
+    </div>
+    <div class="cake-actions">
+      <button type="button" id="cake-spin" class="cake-spin">↻ Give it a spin</button>
+      <button type="button" class="cake-cut-launch" id="cake-cut-launch" aria-controls="cake-cut-experience" aria-expanded="false">✂ Cut the birthday cake</button>
+    </div>
+    <p class="cake-instruction cake-instruction-wide">Spin the real 3D cake, then cut a slice in the close-up. ♡</p>
+    <p class="cake-caption" id="cake-caption" aria-live="polite">Wishing you sunshine, laughter, and a beautiful year ahead. ♡</p>
+<div id="cake-cut-experience" class="cake-cut-experience" hidden aria-labelledby="cake-cut-heading">
+  <div class="cake-cut-top"><span class="little-kicker">A SPECIAL LITTLE MOMENT</span><button type="button" id="cake-cut-close" class="cake-cut-close" aria-label="Return to spinning cake">✕</button></div>
+  <h3 id="cake-cut-heading">Ready for the first slice? <em>♡</em></h3>
+  <p class="cake-cut-help">Slide your finger across the cake, or press the button. She's the birthday girl, so the first slice is hers!</p>
+  <div id="birthday-slice-scene" class="birthday-slice-scene" role="button" tabindex="0" aria-label="Cut the golden cake by swiping right or pressing Enter">
+    <svg class="slice-artwork" viewBox="0 0 520 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+       <linearGradient id="goldCakeSide" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff5c6"/><stop offset=".47" stop-color="#f5cb75"/><stop offset="1" stop-color="#b57b43"/></linearGradient>
+       <linearGradient id="goldCakeTop" x1=".15" y1="0" x2=".95" y2="1"><stop stop-color="#fffdf2"/><stop offset=".62" stop-color="#ffefba"/><stop offset="1" stop-color="#eebf7b"/></linearGradient>
+       <radialGradient id="cutPlate"><stop stop-color="#fffefa"/><stop offset=".77" stop-color="#f5e4c3"/><stop offset="1" stop-color="#d1a66d"/></radialGradient>
+      </defs>
+      <ellipse cx="257" cy="332" rx="176" ry="28" fill="#906c33" opacity=".16"/>
+      <ellipse cx="260" cy="316" rx="178" ry="35" fill="url(#cutPlate)" stroke="#d6b082" stroke-width="5"/>
+      <g class="cut-cake-whole">
+       <path d="M112 195 L112 262 Q260 356 406 262 L406 195 Q260 277 112 195Z" fill="url(#goldCakeSide)" stroke="#d59c60" stroke-width="3"/>
+       <path d="M112 221 Q260 296 406 221" fill="none" stroke="#fff6dd" stroke-width="17"/>
+       <path d="M112 260 Q260 348 406 260" fill="none" stroke="#c48c53" stroke-width="11"/>
+       <ellipse cx="259" cy="196" rx="147" ry="62" fill="url(#goldCakeTop)" stroke="#e6bb7e" stroke-width="5"/>
+       <ellipse cx="259" cy="195" rx="129" ry="51" fill="none" stroke="#fffefa" stroke-width="10" stroke-dasharray="8 9"/>
+       <path d="M205 136 Q260 106 311 136 L305 172 Q260 207 211 172Z" fill="#f1be80"/>
+       <ellipse cx="258" cy="136" rx="54" ry="25" fill="#fff8de" stroke="#eac5a1" stroke-width="5"/>
+       <ellipse cx="258" cy="130" rx="39" ry="16" fill="#fffdeb" stroke="#f1d3a9" stroke-width="3"/>
+       <circle cx="151" cy="185" r="14" fill="#f7b7a6"/><circle cx="371" cy="185" r="13" fill="#f4cc98"/>
+       <circle cx="208" cy="241" r="14" fill="#f1ca82"/><circle cx="325" cy="242" r="14" fill="#f4b7a5"/>
+       <g class="cut-candles"><rect x="217" y="67" width="10" height="56" rx="4" fill="#fff1c5" stroke="#d59c62" stroke-width="2"/>
+        <rect x="253" y="58" width="10" height="63" rx="4" fill="#fff1c5" stroke="#d59c62" stroke-width="2"/>
+        <rect x="289" y="67" width="10" height="56" rx="4" fill="#fff1c5" stroke="#d59c62" stroke-width="2"/>
+        <path class="cut-flames" d="M222 49 Q209 35 223 22 Q237 35 228 49Z M258 41 Q246 26 259 13 Q273 29 264 41Z M294 49 Q281 35 295 22 Q309 35 300 49Z" fill="#ffc139" stroke="#ffdf76" stroke-width="3"/></g>
+      </g>
+      <path class="cake-slice-gap" d="M257 202 L382 163 Q410 181 394 214 L260 259Z" fill="#a06a3a" stroke="#ffeabd" stroke-width="4" opacity="0"/>
+      <g class="cake-slice-piece">
+       <path d="M257 198 L386 165 Q411 181 396 207 L257 260Z" fill="#fff1c6" stroke="#bb8751" stroke-width="3"/>
+       <path d="M257 260 L396 207 L396 264 L257 311Z" fill="#f7cf8b" stroke="#d49b58" stroke-width="3"/>
+       <path d="M257 260 L257 311 L216 287 L216 224Z" fill="#ffe8ac" stroke="#ba8347" stroke-width="3"/>
+       <path d="M255 232 L394 185" fill="none" stroke="#fff9df" stroke-width="11"/>
+       <circle cx="322" cy="203" r="11" fill="#eeb3a3"/>
+      </g>
+    </svg>
+    <span id="cake-knife" class="cake-knife" aria-hidden="true"><i></i><b></b></span>
+    <span class="cake-cut-swipe-hint">✂ SWIPE TO CUT</span>
   </div>
- </section>
- <p class="world-footnote">The garden is just a little surprise. The real magic is in the memories. ♡</p>
-</main>
-<footer class="world-footer"><span>Made with care, for a very golden birthday.</span><span>♡ Some Bonds Stay Golden</span></footer>
-
-<div id="intro-screen" hidden class="intro-screen" role="dialog" aria-modal="true" aria-labelledby="intro-title">
- <div class="intro-bloom intro-bloom-a" aria-hidden="true">✿</div><div class="intro-bloom intro-bloom-b" aria-hidden="true">✿</div>
- <div class="intro-card"><span class="intro-kicker">A BIRTHDAY JOURNEY</span><div class="intro-symbol" aria-hidden="true">💛</div><h2 id="intro-title">A little world,<br><em>just for you.</em></h2><p>Some bonds stay golden. Some moments make life brighter. Today, you get to explore a few of ours.</p><button id="intro-start" class="gold-button" type="button">Enter your golden garden <span aria-hidden="true">✿</span></button><small>Best enjoyed with a smile and a little music.</small></div>
+  <div id="cake-cut-message" class="cake-cut-message" role="status" aria-live="polite">The first slice is waiting. Make a wish! ✨</div>
+  <div class="cake-cut-actions"><button id="cake-slice-action" class="gold-action" type="button">Cut the first slice ✂</button><button id="cake-slice-reset" class="secondary-action" type="button">Another slice ↺</button></div>
 </div>
-
-<dialog id="cake-dialog" class="world-dialog" aria-labelledby="cake-title">
- <div class="modal-top"><span>THE CAKE PAVILION</span><button class="modal-close" data-close aria-label="Close cake pavilion">✕</button></div>
- <div class="modal-inner cake-game">
-  <span class="modal-eyebrow">Your special moment</span><h2 id="cake-title">It's cake time! 🎂</h2>
-  <p>Spin it, then <strong>swipe across the cake</strong> to cut a slice. Or use the button below.</p>
-  <div id="slicing-area" class="slicing-area" tabindex="0" role="button" aria-label="Cut the golden birthday cake. Swipe horizontally or press Enter">
-   <div class="cake-light-rays"></div>
-   <svg class="slice-cake-svg" viewBox="0 0 520 390" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-     <linearGradient id="cake-side-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffefaa"/><stop offset=".4" stop-color="#f5c875"/><stop offset="1" stop-color="#bd8247"/></linearGradient>
-     <linearGradient id="cake-top-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf3"/><stop offset=".6" stop-color="#fdf0ba"/><stop offset="1" stop-color="#f8d28a"/></linearGradient>
-     <filter id="cake-shadow-filter"><feGaussianBlur stdDeviation="9"/></filter>
-    </defs>
-    <ellipse cx="250" cy="324" rx="173" ry="24" fill="#915f39" opacity=".24" filter="url(#cake-shadow-filter)"/>
-    <ellipse cx="250" cy="305" rx="178" ry="41" fill="#f7e8c6" stroke="#b98c5d" stroke-width="4"/>
-    <ellipse cx="250" cy="301" rx="158" ry="28" fill="#fffef0" stroke="#eac992" stroke-width="5"/>
-    <g id="cake-slice-main" class="cake-slice-main">
-     <path d="M105 194 L105 257 Q250 360 395 257 L395 194 Q250 265 105 194Z" fill="url(#cake-side-grad)" stroke="#d09b5c" stroke-width="3"/>
-     <path d="M105 208 Q250 286 395 208" fill="none" stroke="#fffaf0" stroke-width="17" stroke-linecap="round"/>
-     <path d="M105 241 Q250 321 395 241" fill="none" stroke="#e7ac5f" stroke-width="11" stroke-linecap="round"/>
-     <ellipse cx="250" cy="194" rx="145" ry="62" fill="url(#cake-top-grad)" stroke="#e0b576" stroke-width="6"/>
-     <ellipse cx="250" cy="193" rx="116" ry="42" fill="none" stroke="#fffaf3" stroke-width="10" stroke-dasharray="9 7"/>
-     <path d="M188 134 Q250 95 313 134 L304 172 Q250 209 196 172Z" fill="#f5bb75" opacity=".92"/>
-     <ellipse cx="250" cy="134" rx="65" ry="31" fill="#fff5df" stroke="#f4cda8" stroke-width="5"/>
-     <ellipse cx="250" cy="126" rx="43" ry="19" fill="#ffe6bb" stroke="#fffdf2" stroke-width="7"/>
-     <path d="M200 143 L200 178 M300 143 L300 178" stroke="#f4c68b" stroke-width="9" stroke-linecap="round"/>
-     <g class="cake-candles"><rect x="211" y="61" width="12" height="57" rx="4" fill="#fff1ca" stroke="#d7ab6e" stroke-width="2"/><rect x="244" y="52" width="12" height="64" rx="4" fill="#fff1ca" stroke="#d7ab6e" stroke-width="2"/><rect x="275" y="61" width="12" height="57" rx="4" fill="#fff1ca" stroke="#d7ab6e" stroke-width="2"/>
-      <path d="M216 44 Q205 30 218 20 Q232 33 222 44Z M249 35 Q238 21 251 9 Q265 23 255 35Z M280 44 Q269 29 282 20 Q294 35 286 44Z" fill="#ffb629" stroke="#ffdd68" stroke-width="3" class="cake-flames"/></g>
-     <path class="cake-wedge-gap" d="M250 194 L354 157 Q396 176 388 209 L251 238Z" fill="#c89155" stroke="#f8e5bb" stroke-width="3" opacity="0"/><g class="cake-roses"><circle cx="151" cy="176" r="14" fill="#f7b6a0"/><circle cx="353" cy="179" r="13" fill="#e5b69a"/><circle cx="250" cy="249" r="14" fill="#f6daa4"/><circle cx="305" cy="239" r="11" fill="#f2ad9c"/><circle cx="197" cy="240" r="11" fill="#f5c0ae"/></g>
-    </g>
-    <g id="cake-cut-piece" class="cake-cut-piece">
-     <path d="M260 179 L362 161 Q400 182 385 204 L260 249Z" fill="#fff1ba" stroke="#b9824c" stroke-width="3"/>
-     <path d="M260 249 L385 204 L385 262 L260 293Z" fill="#f6cc80" stroke="#d6a065" stroke-width="3"/>
-     <path d="M260 249 L260 293 L221 273 L221 219Z" fill="#ffe7a3" stroke="#c9945e" stroke-width="3"/>
-     <path d="M260 211 L385 187" stroke="#fff9e7" stroke-width="10" fill="none"/>
-     <circle cx="322" cy="195" r="11" fill="#f4ba93"/>
-    </g>
-   </svg>
-   <div class="cake-slice-swipe"><span aria-hidden="true">✂</span><span>SWIPE TO CUT</span></div>
   </div>
-  <p id="cake-game-status" class="game-status" aria-live="polite">Make the first slice! ♡</p>
-  <div class="modal-actions"><button id="cake-cut-button" class="gold-button">Cut the cake ✂</button><button id="cake-reset" class="subtle-button" type="button">One more slice ↺</button></div>
- </div>
-</dialog>
-
-<dialog id="flowers-dialog" class="world-dialog" aria-labelledby="flowers-title">
- <div class="modal-top"><span>SUNFLOWER MEADOW</span><button class="modal-close" data-close aria-label="Close flower meadow">✕</button></div>
- <div class="modal-inner flower-game">
-  <span class="modal-eyebrow">A bouquet, collected with love</span><h2 id="flowers-title">Pick five yellow flowers. 💐</h2>
-  <p>Tap any five flowers in the meadow to make a sunshine bouquet. Each one is a little wish for your birthday.</p>
-  <div class="flower-playfield"><div class="flower-field" id="flower-field" aria-label="Yellow flowers ready to pick">
-    <button class="pick-flower" data-flower="0" style="--fx:15%;--fy:59%;--turn:-15deg" aria-label="Pick golden sunflower"><span>🌻</span></button>
-    <button class="pick-flower" data-flower="1" style="--fx:40%;--fy:40%;--turn:16deg" aria-label="Pick yellow daisy"><span>🌼</span></button>
-    <button class="pick-flower" data-flower="2" style="--fx:67%;--fy:59%;--turn:10deg" aria-label="Pick sunshine flower"><span>🌻</span></button>
-    <button class="pick-flower" data-flower="3" style="--fx:84%;--fy:28%;--turn:-8deg" aria-label="Pick golden marigold"><span>🌼</span></button>
-    <button class="pick-flower" data-flower="4" style="--fx:56%;--fy:18%;--turn:15deg" aria-label="Pick a bright sunflower"><span>🌻</span></button>
-    <button class="pick-flower" data-flower="5" style="--fx:26%;--fy:21%;--turn:-17deg" aria-label="Pick dainty yellow flower"><span>🌼</span></button>
-    <button class="pick-flower" data-flower="6" style="--fx:89%;--fy:76%;--turn:-10deg" aria-label="Pick golden meadow flower"><span>🌻</span></button>
-    <button class="pick-flower" data-flower="7" style="--fx:11%;--fy:17%;--turn:11deg" aria-label="Pick final yellow flower"><span>🌼</span></button>
+</section><section id="golden-bouquet" class="section golden-bouquet-section" aria-labelledby="golden-bouquet-title">
+  <div class="bouquet-bg" aria-hidden="true"><span>✿</span><span>❀</span><span>✻</span><span>✿</span><span>❀</span></div>
+  <div class="section-head reveal"><span class="eyebrow">05 / JUST BECAUSE YOU LOVE YELLOW</span><h2 id="golden-bouquet-title">A bouquet of <em>sunshine.</em></h2>
+  <p>Flowers don't need a reason, but today there's a beautiful one. Pick five yellow blooms to make your very own bouquet.</p></div>
+  <div class="golden-bouquet-card reveal">
+   <div class="flowers-meadow">
+    <div class="flowers-meadow-head"><span class="little-kicker">THE GOLDEN FLOWER GARDEN</span><span class="flower-progress-label" id="bouquet-count">0 / 5 picked</span></div>
+    <div id="flowers-meadow-grid" class="flowers-meadow-grid" role="group" aria-label="Choose five yellow flowers">
+     <button class="pick-flower-button" data-flower="0" type="button" aria-label="Pick the first sunflower" style="--flower-h:0deg;--flower-turn:-9deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Sunshine</span></button>
+     <button class="pick-flower-button" data-flower="1" type="button" aria-label="Pick a golden daisy" style="--flower-h:25deg;--flower-turn:7deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Laughter</span></button>
+     <button class="pick-flower-button" data-flower="2" type="button" aria-label="Pick a yellow rose" style="--flower-h:47deg;--flower-turn:-5deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Peace</span></button>
+     <button class="pick-flower-button" data-flower="3" type="button" aria-label="Pick a yellow marigold" style="--flower-h:12deg;--flower-turn:8deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Adventure</span></button>
+     <button class="pick-flower-button" data-flower="4" type="button" aria-label="Pick a buttercup" style="--flower-h:40deg;--flower-turn:-7deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Joy</span></button>
+     <button class="pick-flower-button" data-flower="5" type="button" aria-label="Pick a yellow bloom" style="--flower-h:14deg;--flower-turn:6deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Courage</span></button>
+     <button class="pick-flower-button" data-flower="6" type="button" aria-label="Pick a golden sunflower" style="--flower-h:35deg;--flower-turn:1deg"><span class="flower-sculpture"><span class="flower-bloom"><i></i></span><span class="flower-stalk"></span><span class="flower-leaf"></span></span><span class="flower-button-text">Memories</span></button>
+    </div>
+    <p class="floral-tip">Tap any five flowers. Every bloom is a wish for your year ahead.</p>
+   </div>
+   <div class="bouquet-display">
+    <span class="little-kicker">YOUR HANDPICKED BOUQUET</span>
+    <div class="bouquet-3d-scene" id="bouquet-3d-scene" aria-label="A bouquet that fills up as yellow flowers are selected">
+      <div class="bouquet-light" aria-hidden="true"></div>
+      <div id="bouquet-stems" class="bouquet-stems"></div>
+      <div class="bouquet-wrapping bouquet-wrap-back"></div>
+      <div class="bouquet-wrapping bouquet-wrap-front"></div>
+      <div class="bouquet-ribbon"><span>♡</span></div>
+      <div class="bouquet-ground-shadow"></div>
+    </div>
+    <p id="bouquet-message" class="bouquet-message" role="status" aria-live="polite">The bouquet is waiting for its first flower. 💛</p>
+    <div class="bouquet-actions"><button type="button" id="bouquet-present" class="gold-action" disabled>Present the bouquet 💐</button><button type="button" id="bouquet-reset" class="secondary-action">Start over ↺</button></div>
+    <p id="bouquet-dedication" class="bouquet-dedication" hidden>For the girl who makes ordinary days brighter. A whole bouquet of sunshine, just for you. Happy Birthday. 💛</p>
+   </div>
   </div>
-  <div class="flower-bouquet-wrap"><span class="bouquet-kicker">YOUR BOUQUET</span><div id="bouquet-stems" class="bouquet-stems"><span class="bouquet-wrap"><i></i><b>♡</b></span></div><span id="flower-counter" class="flower-counter">0 / 5 flowers</span></div></div>
-  <p id="flower-message" class="game-status" aria-live="polite">The garden is waiting for you. ♡</p>
-  <div class="modal-actions"><button id="bouquet-present" class="gold-button" type="button" disabled>Present my bouquet 💛</button><button id="bouquet-reset" class="subtle-button" type="button">Start fresh ↺</button></div>
- </div>
-</dialog>
-
-<dialog id="memories-dialog" class="world-dialog wide-dialog" aria-labelledby="memories-title">
- <div class="modal-top"><span>MEMORY LANE</span><button class="modal-close" data-close aria-label="Close memory lane">✕</button></div>
- <div class="modal-inner">
-  <span class="modal-eyebrow">A little journey through time</span><h2 id="memories-title">The days we shared. ♡</h2>
-  <p>Every photo is a little chapter. The private collection will appear here when the secure birthday site is connected.</p>
-  <div id="memory-board" class="memory-board"></div>
-  <div id="world-videos" class="world-videos" hidden><h3>Little films to remember</h3><div id="world-video-list" class="world-video-list"></div><video id="world-video" controls playsinline preload="none" hidden></video></div>
- </div>
-</dialog>
-
-<dialog id="quiz-dialog" class="world-dialog" aria-labelledby="world-quiz-title">
- <div class="modal-top"><span>THE LITTLE QUIZ</span><button class="modal-close" data-close aria-label="Close little quiz">✕</button></div>
- <div class="modal-inner quiz-game">
-  <span class="modal-eyebrow">Remember these? ♡</span><h2 id="world-quiz-title">A little game for you.</h2>
-  <div class="world-quiz-progress"><span id="world-quiz-num">1 / 4</span><div><i id="world-quiz-bar"></i></div></div>
-  <div id="world-quiz-step"><h3 id="world-quiz-question"></h3><p id="world-quiz-subtitle"></p><div id="world-quiz-options"></div></div>
-  <div id="world-quiz-done" class="world-quiz-done" hidden><span class="done-heart">♡</span><h3>Some bonds stay golden.</h3><p>Thank you for walking through these little memories with me. I hope your birthday is filled with happiness.</p><button class="subtle-button" id="world-quiz-replay">Play again ↺</button></div>
- </div>
-</dialog>
-
-<dialog id="gift-dialog" class="world-dialog" aria-labelledby="gift-title">
- <div class="modal-top"><span>THE LITTLE SURPRISE</span><button class="modal-close" data-close aria-label="Close gift surprise">✕</button></div>
- <div class="modal-inner gift-game">
-  <div class="gift-present-icon" aria-hidden="true">🎁</div>
-  <span class="modal-eyebrow">A little something for you</span><h2 id="gift-title">Your birthday wish. 💛</h2>
-  <p>May this year bring you peace, laughter, beautiful days, and everything that makes your heart feel at home.</p>
-  <p class="gift-letter">Some bonds stay golden. And somewhere in my heart, I still hope we could share new moments together. But today is simply about celebrating you.</p>
-  <div id="world-gift-claim" class="world-gift-claim" hidden></div>
-  <p class="gift-soon" id="gift-soon">There's a little birthday surprise here for you. A gift card will be waiting when it's ready. ♡</p>
- </div>
-</dialog>
-<dialog id="message-dialog" class="world-dialog message-dialog" aria-labelledby="message-title"><div class="modal-inner message-inner"><div class="message-icon" id="message-icon">💛</div><h2 id="message-title">Beautifully done!</h2><p id="message-text"></p><button id="message-close" class="gold-button" type="button">Keep exploring ♡</button></div></dialog>
-<div id="garden-toast" class="garden-toast" role="status" aria-live="polite"></div>
-<div id="garden-confetti" aria-hidden="true"></div>
-<div class="world-audio" aria-hidden="true"><iframe id="garden-soundcloud" title="Background soundtrack" loading="eager" tabindex="-1" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fnihaltauro%2Flove-you-chinna&auto_play=true&show_artwork=false&visual=false&hide_related=true&show_comments=false&single_active=false" allow="autoplay" referrerpolicy="no-referrer"></iframe></div>
-</body>
-</html>
+</section><section class="section finale" id="birthday-wish"><div class="final-glow"></div><div class="final-inner reveal"><span class="eyebrow">05 / A BIRTHDAY WISH</span><h2>Happy Birthday,<br><em>you beautiful soul.</em></h2><p>More than anything, I hope this year brings you peace, laughter, and the freedom to choose everything that makes you happy.</p><div class="closing-letter"><p>I miss how easy it once felt to be us. A part of me still quietly hopes for a future where we can make new memories together.</p><p>But today isn't about asking for anything. It's simply about celebrating you — and wishing you all the happiness you deserve.</p></div><button class="primary birthday-gift-button" id="celebrate" type="button" aria-expanded="false" aria-controls="gift-reveal">Make a wish &amp; open your gift <span aria-hidden="true">♡</span></button><div class="gift-reveal" id="gift-reveal" hidden aria-live="polite"><div class="gift-envelope" aria-hidden="true"><span class="gift-envelope-heart">♥</span></div><span class="eyebrow">A SMALL BIRTHDAY SURPRISE</span><h3>Something thoughtful, just for you.</h3><p id="gift-copy">There’s a little birthday gift on the way. A small reminder to choose something that makes you smile.</p><div id="gift-claim" class="gift-claim" hidden></div><p class="gift-note">No strings attached. Just a birthday wish. ♡</p></div><p class="small">Made with care, for your birthday. ♡</p></div></section></main><footer>♡ Made with care, for your birthday <span>Some Bonds Stay Golden</span></footer><aside id="music-sheet" class="music-sheet" aria-hidden="true" aria-label="Background music controls"><div class="music-top"><div><span class="music-kicker">NOW IN THE BACKGROUND ♫</span><strong>Neene Yendigu</strong><small>By Nihal Tauro · SoundCloud</small></div><button type="button" id="music-close" class="music-close" aria-label="Close music controls">✕</button></div><div id="music-player" class="music-player"><iframe id="soundcloud-frame" class="soundcloud-iframe" title="Neene Yendigu by Nihal Tauro — SoundCloud audio player" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fnihaltauro%2Flove-you-chinna&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&show_artwork=false&visual=false&color=%23ffb5d2" width="100%" height="112" scrolling="no" frameborder="0" allow="autoplay" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div class="music-actions"><button id="music-pause" type="button" class="music-control" aria-pressed="false">♫ Pause song</button><span id="music-state" class="music-state" aria-live="polite">Starting background audio…</span></div><p class="music-note">The song repeats while the website is open. Some phones require your first tap before sound can start.</p><a href="https://soundcloud.com/nihaltauro/love-you-chinna" target="_blank" rel="noopener noreferrer" class="music-fallback">Listen on SoundCloud ↗</a></aside>
+<dialog id="film-dialog" class="film-dialog" aria-label="Memory video"><div class="film-dialog-head"><strong id="film-dialog-title">A memory in motion</strong><button type="button" id="film-close" aria-label="Close video">✕</button></div><video id="memory-video" controls playsinline preload="none" controlsList="nodownload"></video></dialog>
+<div class="toast" id="site-toast" role="status" aria-live="polite"></div><script src="script.js?v=mobile-fix-2" defer></script><script src="cinematic.js?v=mobile-fix-2" defer></script><script src="https://w.soundcloud.com/player/api.js" defer></script><script src="experience.js" defer></script><script src="quiz.js?v=sunshine1" defer></script><script src="gift.js?v=story-3" defer></script><script src="cake.js?v=sunshine1" defer></script><script src="celebration.js?v=cinematic-1" defer></script></body></html>
