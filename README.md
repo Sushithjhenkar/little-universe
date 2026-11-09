@@ -128,3 +128,20 @@ The **playable Golden Garden is now the primary `index.html` homepage**. The pre
 - Soundtrack: the official SoundCloud iframe attempts audible autoplay on page load, loops using Widget FINISH, and retries on first user interaction if autoplay was blocked. **iOS Safari and many mobile browsers prohibit guaranteed audible autoplay without a user gesture.** The music toggle remains available.
 - Security: `main` is only a public illustrated preview with no actual media or secrets; the private Worker branch still requires Cloudflare secrets and tested Drive access before sharing personal content.
 
+
+
+## Cinematic birthday website (review only — DO NOT DEPLOY)
+
+Review branch: `feature/cinematic-birthday-cake-bouquet`.
+
+The original full-screen yellow birthday site from `classic.html` has been restored as this branch's `index.html`. It retains the opening hero, gentle SoundCloud music, four-question quiz with acknowledgment, interactive 3D memory timeline, video reels, rotating three-tier 3D birthday cake, closing letter and protected gift-card integration hooks.
+
+**New on the review branch only:**
+
+- Cinematic close-up **cake-cutting scene** over the existing rotating 3D cake. The visitor can swipe horizontally or select “Cut the first slice”; a wedge separates, the knife sweeps through, candles fade, and golden flower/confetti particles celebrate. An accessible reset and close action are included.
+- A new **yellow bouquet maker** between the cake and final wish. Choose any 5 of 7 stylized yellow flowers, see them emerge into a layered 3D-style bouquet, then “Present the bouquet” for a dedicated birthday message and confetti. Reset is supported.
+- Floating floral hero accents, tactile hover and parallax on desktop, responsive iPhone layout, and reduced-motion handling.
+
+New assets: `celebration.css` and `celebration.js`. No user photos, Drive file IDs, passwords, or gift-card codes have been added. This branch intentionally **does not** modify production `main` or trigger a deployment. The GitHub production branch still contains the previous playable world; only after approval should the cinematic branch be merged and the protected media configuration reconciled.
+
+QA checklist: check cake spin, opening the cut scene, swiping/clicking to cut, replay/close, building the five-flower bouquet, presenting and resetting; check the 3D timeline, quiz, video cards, music controls and closing note on desktop and iPhone Safari.
