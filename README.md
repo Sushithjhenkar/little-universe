@@ -117,3 +117,14 @@ A new illustrated, mobile-first **2.5D mini-world** is available as `world.html`
 **Privacy:** This public world contains illustration-only placeholders. The private Cloudflare build includes `world.html`, `world.css` and `world.js`, adds the authenticated media API hook, and protects the route with the Worker-first gate. Do not merge in real photos or credentials.
 
 The main landing page retains its existing scroll-based experience and links to the playable world; once the user has tested it, the world can replace the main home page if preferred.
+
+## Primary homepage update — November 8, 2026
+
+The **playable Golden Garden is now the primary `index.html` homepage**. The previous scroll-driven birthday website is preserved as `classic.html`, linked in the game header. `world.html` is also kept as a compatible alternate route.
+
+- Entry: opens directly into a playable garden; no Enter button is required.
+- Controls: smoother analog acceleration/deceleration, WASD/arrow keys, on-screen touch joystick, tap-to-travel, and gentle 3D-look character facing.
+- Character: CSS-based **stylized 3D-look avatar** inspired by the selected private portrait (dark wavy hair, yellow embroidered outfit). **No actual private photograph or image-derived 3D model** is committed to this public repository. For a photo-faithful avatar, publish a properly created asset only through the protected-media path.
+- Soundtrack: the official SoundCloud iframe attempts audible autoplay on page load, loops using Widget FINISH, and retries on first user interaction if autoplay was blocked. **iOS Safari and many mobile browsers prohibit guaranteed audible autoplay without a user gesture.** The music toggle remains available.
+- Security: `main` is only a public illustrated preview with no actual media or secrets; the private Worker branch still requires Cloudflare secrets and tested Drive access before sharing personal content.
+
