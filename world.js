@@ -364,6 +364,22 @@ function renderMemories(data){
   videoBlock.hidden=!list.children.length;
  }else{videoBlock.hidden=true;$("#world-video").hidden=true}
 }
+async function loadPrivateAvatar(){
+ if(!privateAPI)return;
+ try{
+  const response=await fetch("/api/private/memories",{credentials:"same-origin",cache:"no-store"});
+  if(!response.ok)return;
+  const data=await response.json();
+  privateMemories=data;memoriesLoaded=true;
+  const url=data?.hero?.url;
+  if(!url||!url.startsWith("/api/private/media/"))return;
+  const portrait=$(".avatar-face-portrait");
+  if(!portrait)return;
+  portrait.onload=()=>{portrait.hidden=false;avatar.classList.add("has-portrait")};
+  portrait.onerror=()=>{portrait.hidden=true;avatar.classList.remove("has-portrait")};
+  portrait.src=url;
+ }catch{/* Keep the public-style illustrated avatar if auth or media is absent. */}
+}
 async function loadMemories(){
  if(memoriesLoaded){renderMemories(privateMemories);return}
  renderMemories(null);
@@ -440,4 +456,5 @@ function nextQuiz(){
 }
 $("#world-quiz-replay").addEventListener("click",()=>{quizIndex=0;renderQuiz()});
 renderQuiz();
+loadPrivateAvatar();
 })();
