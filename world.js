@@ -89,6 +89,8 @@ function positionForPlace(name){
  ];
 }
 function walkTo(x,y,done){
+ held.clear();joystickInput={x:0,y:0};velocity={x:0,y:0};
+ const thumb=$("#joystick-thumb");if(thumb){thumb.style.setProperty("--joy-x","0px");thumb.style.setProperty("--joy-y","0px")}
  ++walkToken;autoWalking=true;const token=walkToken;
  const sx=player.x,sy=player.y,dist=Math.hypot(x-sx,y-sy);
  const dur=reduce?30:clamp(dist*13,300,1100);
