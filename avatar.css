@@ -31,7 +31,7 @@
 .world-avatar.is-walking .avatar-feet{animation:tiny-steps .22s linear infinite alternate}
 .world-avatar:not(.is-walking) .avatar-dupatta{animation:dupatta-sway 3.4s ease-in-out infinite alternate}
 .world-center-label{pointer-events:none;opacity:.75}
-.garden-joystick{width:97px;height:97px;border:2px solid #b68b529c;border-radius:50%;background:radial-gradient(circle,#fffbefdf,#f9e1a6d9);display:grid;place-items:center;position:relative;touch-action:none;box-shadow:0 7px 26px #a6783749;user-select:none}
+.world-dpad>.garden-joystick{display:grid;gap:0}.garden-joystick{width:97px;height:97px;border:2px solid #b68b529c;border-radius:50%;background:radial-gradient(circle,#fffbefdf,#f9e1a6d9);display:grid;place-items:center;position:relative;touch-action:none;box-shadow:0 7px 26px #a6783749;user-select:none}
 .joystick-arrows{font-size:30px;color:#cb9a49;opacity:.36}
 .joystick-thumb{position:absolute;width:45px;height:45px;left:50%;top:50%;display:grid;place-items:center;transform:translate3d(calc(-50% + var(--joy-x,0px)),calc(-50% + var(--joy-y,0px)),0);border-radius:50%;background:linear-gradient(145deg,#fff4c7,#e3bb69);border:1px solid #b1844a;color:#9a6f32;font:25px Georgia,serif;box-shadow:0 5px 12px #9d723c65;will-change:transform;pointer-events:none}
 .world-dpad{gap:7px!important}
