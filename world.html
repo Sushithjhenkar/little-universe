@@ -9,22 +9,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="world.css?v=golden-world-1">
+<link rel="stylesheet" href="world.css?v=golden-world-2"><link rel="stylesheet" href="avatar.css?v=golden-world-2">
 <script src="https://w.soundcloud.com/player/api.js" defer></script>
-<script src="world.js?v=golden-world-1" defer></script>
+<script src="world.js?v=golden-world-2" defer></script>
 </head>
 <body>
 <div class="sky-light sky-light-one" aria-hidden="true"></div><div class="sky-light sky-light-two" aria-hidden="true"></div>
 <header class="world-header">
  <div class="world-brand"><span class="brand-flower">✿</span><span>Some Bonds <em>Stay Golden</em></span></div>
  <div class="world-header-actions">
-  <button id="music-toggle" class="ui-chip" type="button" aria-pressed="false" aria-label="Play background music"><span aria-hidden="true">♫</span><span id="music-label">Play music</span></button>
-  <a class="ui-chip world-back" href="index.html" aria-label="Open classic birthday site">Classic story <span aria-hidden="true">↗</span></a>
+  <button id="music-toggle" class="ui-chip" type="button" aria-pressed="false" aria-label="Play background music"><span aria-hidden="true">♫</span><span id="music-label">Music starting…</span></button>
+  <a class="ui-chip world-back" href="classic.html" aria-label="Open classic birthday site">Classic story <span aria-hidden="true">↗</span></a>
  </div>
 </header>
 <main class="world-shell">
  <section class="world-heading" aria-labelledby="world-title">
-  <div class="eyebrow">A little birthday adventure <span>·</span> Made just for you</div>
+  <div class="eyebrow">A playable birthday adventure <span>·</span> Made just for you</div>
   <h1 id="world-title">Welcome to your<br><em>golden little world.</em></h1>
   <p>Walk through the garden, cut your birthday cake, gather yellow flowers, and discover the moments that make this day yours.</p>
  </section>
@@ -40,20 +40,20 @@
    <button class="world-place place-memories" data-place="memories" style="--px:22%;--py:76%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-photo-art" aria-hidden="true"><span class="photo-icon photo-back"><span>♡</span></span><span class="photo-icon photo-front"><span>☺</span></span></span><span class="place-name">Memory Lane</span><small>A walk through our story</small></button>
    <button class="world-place place-quiz" data-place="quiz" style="--px:78%;--py:76%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-letter-art" aria-hidden="true"><span class="envelope-back"></span><span class="envelope-heart">♥</span></span><span class="place-name">The Little Quiz</span><small>Four questions</small></button>
    <button class="world-place place-gift" data-place="gift" style="--px:50%;--py:17%" type="button"><span class="place-halo" aria-hidden="true"></span><span class="place-illustration place-gift-art" aria-hidden="true"><span class="gift-box-art">🎁</span></span><span class="place-name">Your Birthday Gift</span><small>A sweet little surprise</small></button>
-   <div id="world-avatar" class="world-avatar" style="left:50%;top:57%" aria-hidden="true"><div class="avatar-shadow"></div><div class="avatar-body"><span class="avatar-hair"></span><span class="avatar-face"><i></i><i></i><b></b></span><span class="avatar-dress"></span><span class="avatar-feet"></span></div><span class="avatar-spark">♡</span></div>
+   <div id="world-avatar" class="world-avatar" style="left:50%;top:57%" aria-hidden="true"><div class="avatar-shadow"></div><div class="avatar-body"><span class="avatar-curls curls-left"></span><span class="avatar-curls curls-right"></span><span class="avatar-hair"></span><span class="avatar-face"><span class="avatar-bindi"></span><i></i><i></i><b></b></span><span class="avatar-earring earring-left"></span><span class="avatar-earring earring-right"></span><span class="avatar-dress"></span><span class="avatar-dupatta"></span><span class="avatar-arm arm-left"></span><span class="avatar-arm arm-right"></span><span class="avatar-feet"></span></div><span class="avatar-spark">♡</span></div>
    <div class="world-center-label" aria-hidden="true">YOU ARE HERE</div>
    <div class="world-map-guide"><span>✦ Tap a place to explore</span><span>← ↑ ↓ → or WASD to walk</span></div>
   </div>
   <div class="world-controls">
    <div class="controls-hint"><span class="controls-heart">♡</span> Every little moment counts <span class="controls-divider">·</span> Explore in any order</div>
-   <div id="world-dpad" class="world-dpad" aria-label="Walk around the garden"><button data-move="up" aria-label="Walk up">↑</button><div><button data-move="left" aria-label="Walk left">←</button><button data-move="down" aria-label="Walk down">↓</button><button data-move="right" aria-label="Walk right">→</button></div></div>
+   <div id="world-dpad" class="world-dpad" aria-label="Walk around the garden"><div id="garden-joystick" class="garden-joystick" role="group" aria-label="Drag joystick to walk"><span class="joystick-arrows" aria-hidden="true">✦</span><span id="joystick-thumb" class="joystick-thumb" aria-hidden="true">♡</span></div><div class="dpad-fallback" aria-label="Directional buttons"><button data-move="left" aria-label="Walk left">←</button><button data-move="up" aria-label="Walk up">↑</button><button data-move="down" aria-label="Walk down">↓</button><button data-move="right" aria-label="Walk right">→</button></div></div>
   </div>
  </section>
  <p class="world-footnote">The garden is just a little surprise. The real magic is in the memories. ♡</p>
 </main>
 <footer class="world-footer"><span>Made with care, for a very golden birthday.</span><span>♡ Some Bonds Stay Golden</span></footer>
 
-<div id="intro-screen" class="intro-screen" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+<div id="intro-screen" hidden class="intro-screen" role="dialog" aria-modal="true" aria-labelledby="intro-title">
  <div class="intro-bloom intro-bloom-a" aria-hidden="true">✿</div><div class="intro-bloom intro-bloom-b" aria-hidden="true">✿</div>
  <div class="intro-card"><span class="intro-kicker">A BIRTHDAY JOURNEY</span><div class="intro-symbol" aria-hidden="true">💛</div><h2 id="intro-title">A little world,<br><em>just for you.</em></h2><p>Some bonds stay golden. Some moments make life brighter. Today, you get to explore a few of ours.</p><button id="intro-start" class="gold-button" type="button">Enter your golden garden <span aria-hidden="true">✿</span></button><small>Best enjoyed with a smile and a little music.</small></div>
 </div>
@@ -158,6 +158,6 @@
 <dialog id="message-dialog" class="world-dialog message-dialog" aria-labelledby="message-title"><div class="modal-inner message-inner"><div class="message-icon" id="message-icon">💛</div><h2 id="message-title">Beautifully done!</h2><p id="message-text"></p><button id="message-close" class="gold-button" type="button">Keep exploring ♡</button></div></dialog>
 <div id="garden-toast" class="garden-toast" role="status" aria-live="polite"></div>
 <div id="garden-confetti" aria-hidden="true"></div>
-<div class="world-audio" aria-hidden="true"><iframe id="garden-soundcloud" title="Background soundtrack" loading="lazy" tabindex="-1" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fnihaltauro%2Flove-you-chinna&auto_play=false&show_artwork=false&visual=false&hide_related=true&show_comments=false" allow="autoplay" referrerpolicy="no-referrer"></iframe></div>
+<div class="world-audio" aria-hidden="true"><iframe id="garden-soundcloud" title="Background soundtrack" loading="lazy" tabindex="-1" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fnihaltauro%2Flove-you-chinna&auto_play=true&show_artwork=false&visual=false&hide_related=true&show_comments=false&single_active=false" allow="autoplay" referrerpolicy="no-referrer"></iframe></div>
 </body>
 </html>
