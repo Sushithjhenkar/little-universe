@@ -17,14 +17,21 @@ const messageDialog=$("#message-dialog"),messageTitle=$("#message-title"),messag
 const privateAPI=document.body.dataset.mediaApi==="/api/private/memories";
 const positions={cake:[23,34],flowers:[77,34],memories:[22,83],quiz:[78,83],gift:[50,10]};
 const questNames=["cake","flowers","memories","quiz"];
-const quests=new Set();let player={x:50,y:57},walkToken=0,lastWalk=0,started=false,toastTimeout=null,openPortal=null,autoWalking=false;
+const quests=new Set();let player={x:50,y:57},walkToken=0,lastWalk=0,started=true,toastTimeout=null,openPortal=null,autoWalking=false;
+let velocity={x:0,y:0},joystickInput={x:0,y:0},isJoystickDown=false;
 const held=new Set();const allDialogs=$$("dialog.world-dialog");let lastActive=null;
-const ease=t=>1-Math.pow(1-t,3);
+const ease=t=>t*t*(3-2*t);
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 function setPosition(x,y,walk=false){
  player.x=clamp(x,5,95);player.y=clamp(y,15,96);
  avatar.style.left=player.x+"%";avatar.style.top=player.y+"%";
  avatar.classList.toggle("is-walking",walk||autoWalking);
+ if(walk){
+  const dx=player.x-(setPosition.lastX??player.x),dy=player.y-(setPosition.lastY??player.y);
+  if(Math.abs(dx)>Math.abs(dy)*1.3)avatar.dataset.facing=dx>0?"right":"left";
+  else if(Math.abs(dy)>0.03)avatar.dataset.facing=dy<0?"up":"down";
+ }
+ setPosition.lastX=player.x;setPosition.lastY=player.y;
  const center=$(".world-center-label");if(center){center.style.left=player.x+"%";center.style.top="calc("+player.y+"% + 17px)"}
 }
 function toast(text){
@@ -109,36 +116,90 @@ map.addEventListener("click",event=>{
  walkTo((event.clientX-rect.left)/rect.width*100,(event.clientY-rect.top)/rect.height*100);
 });
 const keyDirs={ArrowLeft:"left",KeyA:"left",ArrowRight:"right",KeyD:"right",ArrowUp:"up",KeyW:"up",ArrowDown:"down",KeyS:"down"};
-function canWalk(){return started&&!intro.contains(document.activeElement)&&!activeDialog()&&!messageDialog.open}
+function canWalk(){return started&&!activeDialog()&&!messageDialog.open}
 document.addEventListener("keydown",event=>{
  if(!canWalk()||event.target.closest("input,textarea,select"))return;
  const direction=keyDirs[event.code];
  if(direction){held.add(direction);event.preventDefault();++walkToken;autoWalking=false}
  if(event.code==="Enter"&&document.activeElement===map){
-  const near=Object.entries(positions).map(([name])=>({name,loc:positionForPlace(name)})).filter(p=>Math.hypot(p.loc[0]-player.x,p.loc[1]-player.y)<15)[0];
+  const near=Object.keys(positions).map(name=>({name,loc:positionForPlace(name)})).find(p=>Math.hypot(p.loc[0]-player.x,p.loc[1]-player.y)<16);
   if(near){event.preventDefault();openDialog(near.name)}
  }
 });
 document.addEventListener("keyup",event=>{if(keyDirs[event.code])held.delete(keyDirs[event.code])});
-document.addEventListener("blur",()=>held.clear());
-let lastFrame=0;
+window.addEventListener("blur",()=>{held.clear();joystickInput={x:0,y:0};isJoystickDown=false});
+const joystick=$("#garden-joystick"),thumb=$("#joystick-thumb");
+if(joystick&&thumb){
+ const resetJoystick=()=>{
+  isJoystickDown=false;joystickInput={x:0,y:0};
+  thumb.style.setProperty("--joy-x","0px");thumb.style.setProperty("--joy-y","0px");
+ };
+ function moveJoystick(event){
+  if(!isJoystickDown)return;
+  const r=joystick.getBoundingClientRect();
+  const max=r.width*.29,dx=event.clientX-r.left-r.width/2,dy=event.clientY-r.top-r.height/2;
+  const dist=Math.max(1,Math.hypot(dx,dy));
+  const pct=Math.min(1,dist/max),x=dx/dist*pct,y=dy/dist*pct;
+  joystickInput={x,y};
+  thumb.style.setProperty("--joy-x",(x*max)+"px");thumb.style.setProperty("--joy-y",(y*max)+"px");
+ }
+ joystick.addEventListener("pointerdown",event=>{
+  if(!canWalk())return;
+  isJoystickDown=true;++walkToken;autoWalking=false;velocity.x=0;velocity.y=0;
+  joystick.setPointerCapture?.(event.pointerId);moveJoystick(event);event.preventDefault();
+ });
+ joystick.addEventListener("pointermove",moveJoystick);
+ ["pointercancel","pointerup","lostpointercapture"].forEach(type=>joystick.addEventListener(type,resetJoystick));
+}
+let lastFrame=0,nearbySpot="";
 function walking(ts){
- if(lastFrame===0)lastFrame=ts;
- const delta=Math.min(ts-lastFrame,52)/1000;lastFrame=ts;
- if(canWalk()&&held.size){
-  const dx=(held.has("right")?1:0)-(held.has("left")?1:0);
-  const dy=(held.has("down")?1:0)-(held.has("up")?1:0);
-  if(dx||dy){const d=Math.hypot(dx,dy);setPosition(player.x+dx/d*26*delta,player.y+dy/d*31*delta,true)}
- }else if(!canWalk()||!held.size){if(!autoWalking)avatar.classList.remove("is-walking")}
+ if(!lastFrame)lastFrame=ts;
+ const delta=Math.min(ts-lastFrame,38)/1000;lastFrame=ts;
+ const v0={x:0,y:0};
+ if(canWalk()){
+  v0.x=(held.has("right")?1:0)-(held.has("left")?1:0)+joystickInput.x;
+  v0.y=(held.has("down")?1:0)-(held.has("up")?1:0)+joystickInput.y;
+ }
+ const norm=Math.max(1,Math.hypot(v0.x,v0.y));
+ const targetX=v0.x/norm*28,targetY=v0.y/norm*35;
+ const blend=1-Math.exp(-delta*(v0.x||v0.y?14:20));
+ velocity.x+=(targetX-velocity.x)*blend;
+ velocity.y+=(targetY-velocity.y)*blend;
+ const speed=Math.hypot(velocity.x,velocity.y);
+ if(speed>.21&&canWalk()){
+  if(autoWalking){++walkToken;autoWalking=false}
+  setPosition(player.x+velocity.x*delta,player.y+velocity.y*delta,true);
+ }else if(!autoWalking)avatar.classList.remove("is-walking");
+ if((Math.floor(ts/150)!==Math.floor((ts-delta*1000)/150))){
+  let nearest="";
+  for(const name of Object.keys(positions)){
+   const p=positionForPlace(name);
+   if(Math.hypot(p[0]-player.x,p[1]-player.y)<16){nearest=name;break}
+  }
+  if(nearest!==nearbySpot){
+   $(".world-place.is-nearby")?.classList.remove("is-nearby");
+   if(nearest)$('.world-place[data-place="'+nearest+'"]')?.classList.add("is-nearby");
+   nearbySpot=nearest;
+  }
+ }
  requestAnimationFrame(walking);
 }
 requestAnimationFrame(walking);
 $$("[data-move]",$("#world-dpad")).forEach(button=>{
  const dir=button.dataset.move;
- button.addEventListener("pointerdown",e=>{if(!started)return;held.add(dir);++walkToken;autoWalking=false;button.setPointerCapture?.(e.pointerId)});
+ button.addEventListener("pointerdown",event=>{
+  if(!canWalk())return;
+  held.add(dir);++walkToken;autoWalking=false;
+  button.setPointerCapture?.(event.pointerId);
+ });
  const release=()=>held.delete(dir);
  ["pointerup","pointercancel","lostpointercapture"].forEach(type=>button.addEventListener(type,release));
- button.addEventListener("click",()=>{if(!started)return;const d={up:[0,-3],down:[0,3],left:[-3,0],right:[3,0]}[dir];setPosition(player.x+d[0],player.y+d[1])});
+ button.addEventListener("click",event=>{
+  if(!canWalk()||event.detail!==0)return;
+  const d={up:[0,-3],down:[0,3],left:[-3,0],right:[3,0]}[dir];
+  setPosition(player.x+d[0],player.y+d[1],true);
+  requestAnimationFrame(()=>avatar.classList.remove("is-walking"));
+ });
 });
 for(let i=0;i<135;i++){
  const pos=document.createElement("span"),flower=i%11===0?"✿":i%7===0?"♡":"•";
@@ -151,35 +212,69 @@ for(let i=0;i<135;i++){
  pos.style.setProperty("--duration",(3+i%5)+"s");
  $("#garden-sprinkles").append(pos);
 }
-let playerMusic=null,musicPlaying=false;
+// Attempt the official soundtrack immediately on page load.
+ // Safari/iPhone may reject audible autoplay until a gesture: retry on first
+ // interaction with the world, without requiring an Enter button.
+let playerMusic=null,musicPlaying=false,musicWanted=true,musicReady=false,musicStarting=false,musicPausedForVideo=false;
+let musicInitAttempts=0;
+function startMusic(){
+ if(!musicWanted||!playerMusic)return;
+ try{playerMusic.play()}catch{}
+}
 function initMusic(){
- if(typeof SC==="undefined"||!SC.Widget)return;
+ if(playerMusic||typeof SC==="undefined"||!SC.Widget)return !!playerMusic;
  try{
   playerMusic=SC.Widget($("#garden-soundcloud"));
-  playerMusic.bind(SC.Widget.Events.FINISH,()=>{if(musicPlaying){playerMusic.seekTo(0);playerMusic.play()}});
-  playerMusic.bind(SC.Widget.Events.PLAY,()=>{$("#music-label").textContent="Pause music";$("#music-toggle").setAttribute("aria-pressed","true");musicPlaying=true});
-  playerMusic.bind(SC.Widget.Events.PAUSE,()=>{$("#music-label").textContent="Play music";$("#music-toggle").setAttribute("aria-pressed","false");musicPlaying=false});
- }catch{playerMusic=null}
+  playerMusic.bind(SC.Widget.Events.READY,()=>{
+   musicReady=true;startMusic();
+  });
+  playerMusic.bind(SC.Widget.Events.FINISH,()=>{
+   if(musicWanted){playerMusic.seekTo(0);playerMusic.play()}
+  });
+  playerMusic.bind(SC.Widget.Events.PLAY,()=>{
+   musicPlaying=true;musicStarting=false;
+   $("#music-label").textContent="Pause music";
+   $("#music-toggle").setAttribute("aria-pressed","true");
+  });
+  playerMusic.bind(SC.Widget.Events.PAUSE,()=>{
+   musicPlaying=false;
+   $("#music-label").textContent=musicWanted?"Tap to enable music":"Play music";
+   $("#music-toggle").setAttribute("aria-pressed","false");
+  });
+  return true;
+ }catch{playerMusic=null;return false}
+}
+function tryAutoMusic(){
+ if(initMusic())startMusic();
+ else if(musicInitAttempts++<22)setTimeout(tryAutoMusic,320);
 }
 function toggleMusic(){
- if(!playerMusic)initMusic();
- if(!playerMusic){toast("You can play the music from the classic story page ♫");return}
- if(musicPlaying){playerMusic.pause()}else{playerMusic.play()}
+ initMusic();
+ if(!playerMusic){toast("SoundCloud is unavailable right now ♫");return}
+ if(musicPlaying||musicWanted&&musicStarting){
+  musicWanted=false;musicStarting=false;playerMusic.pause();
+  $("#music-label").textContent="Play music";
+ }else{
+  musicWanted=true;musicStarting=true;startMusic();
+ }
 }
 $("#music-toggle").addEventListener("click",toggleMusic);
-introStart.addEventListener("click",()=>{
- started=true;intro.classList.add("is-gone");intro.setAttribute("aria-hidden","true");
- map.focus({preventScroll:true});
- setTimeout(()=>intro.remove(),750);
- confetti(50,50,38);
- if(!playerMusic)initMusic();
- if(playerMusic){playerMusic.play()}else toast("Tap Play music if you want the soundtrack ♫");
-});
+const retryOnGesture=event=>{
+ if(!musicWanted||musicPlaying)return;
+ if(event.target?.closest("#music-toggle"))return;
+ if(initMusic())startMusic();
+};
+document.addEventListener("pointerdown",retryOnGesture,{passive:true});
+document.addEventListener("keydown",retryOnGesture);
+tryAutoMusic();
+if(intro?.parentElement){
+ intro.hidden=true;intro.setAttribute("aria-hidden","true");
+}
 allDialogs.forEach(dialog=>{
  dialog.querySelectorAll("[data-close]").forEach(button=>button.addEventListener("click",()=>dialog.close()));
  dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
  dialog.addEventListener("close",()=>{
-  if(dialog.id==="memories-dialog"){const video=$("#world-video");video.pause()}
+  if(dialog.id==="memories-dialog"){const video=$("#world-video");video.pause();if(musicPausedForVideo&&musicWanted){musicPausedForVideo=false;startMusic()}}
   held.clear();if(lastActive?.isConnected)lastActive.focus({preventScroll:true});
  });
 });
@@ -259,7 +354,7 @@ function renderMemories(data){
    const b=document.createElement("button");b.textContent="▶ "+labels[i];b.type="button";
    b.addEventListener("click",()=>{
     const player=$("#world-video");player.pause();player.src=v.url;player.hidden=false;
-    if(playerMusic&&musicPlaying)playerMusic.pause();
+    if(playerMusic&&musicPlaying){musicPausedForVideo=true;playerMusic.pause()}
     player.play().catch(()=>toast("Tap play on the video to start it."));
     player.scrollIntoView({block:"nearest",behavior:reduce?"auto":"smooth"});
    });list.append(b);
