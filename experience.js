@@ -64,6 +64,14 @@ function notify(message){if(!toast)return;toast.textContent=message;toast.classL
 const dialog=$("#film-dialog"),player=$("#memory-video"),filmClose=$("#film-close");
 let resumeMusicAfterFilm=false;
 const media={hero:null,photos:[],timeline:[],videos:[]};
+let mediaIssueReported=false;
+function reportMediaIssue(reason){
+ console.warn("Private birthday media:",reason);
+ if(mediaIssueReported)return;
+ mediaIssueReported=true;
+ const hint=$("#film-hint");
+ if(hint)hint.textContent="The private memories could not load. Please check the protected media connection.";
+}
 function cleanUrl(url){
  if(typeof url!=="string"||!url.trim())return null;
  try{const u=new URL(url,location.origin);if(u.protocol!=="https:"&&u.protocol!=="http:")return null;return u.href}catch{return null}
@@ -71,7 +79,9 @@ function cleanUrl(url){
 function addImage(container,url,cssClass,alt=""){
  const src=cleanUrl(url);if(!src)return;
  const img=document.createElement("img");img.src=src;img.alt=alt;img.className=cssClass;
- img.decoding="async";img.loading="lazy";container.append(img);
+ img.decoding="async";img.loading="lazy";
+ img.addEventListener("error",()=>{img.remove();reportMediaIssue("An image request failed")},{once:true});
+ container.append(img);
 }
 function applyPrivateMedia(data){
  if(!data||typeof data!=="object")return;
@@ -104,7 +114,16 @@ function applyPrivateMedia(data){
 window.LittleUniverse={applyPrivateMedia};
 const api=document.body.dataset.mediaApi;
 if(api&&api.startsWith("/")){
- fetch(api,{credentials:"same-origin",headers:{Accept:"application/json"}}).then(r=>{if(!r.ok)throw new Error("Media unavailable");return r.json()}).then(applyPrivateMedia).catch(()=>{/* No personal media on public preview. */});
+ const cutout=$("#vi-cutout-photo");
+ if(cutout)cutout.addEventListener("error",()=>reportMediaIssue("The cutout image request failed"),{once:true});
+ fetch(api,{credentials:"same-origin",cache:"no-store",headers:{Accept:"application/json"}})
+  .then(r=>{if(!r.ok)throw new Error("Media index returned HTTP "+r.status);return r.json()})
+  .then(data=>{
+   applyPrivateMedia(data);
+   if(!Array.isArray(data.timeline)||!data.timeline.some(entry=>entry?.url))
+    reportMediaIssue("Media index has no timeline images; check MEMORIES_MANIFEST");
+  })
+  .catch(error=>reportMediaIssue(error?.message||"Could not load media index"));
 }
 $$(".film-card").forEach(card=>card.addEventListener("click",()=>{
  const src=cleanUrl(card.dataset.src);
