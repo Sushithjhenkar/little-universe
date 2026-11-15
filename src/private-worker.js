@@ -21,7 +21,7 @@ function secureHeaders(response,extra={}){
  headers.set("X-Robots-Tag","noindex, nofollow, noarchive");
  headers.set("Content-Security-Policy",[
   "default-src 'self'",
-  "script-src 'self' https://w.soundcloud.com",
+  "script-src 'self' https://w.soundcloud.com https://cdnjs.cloudflare.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https://i1.sndcdn.com https://i2.sndcdn.com",
@@ -86,9 +86,53 @@ function mediaIndex(manifest){
   videos:(manifest.videos??[]).map(v=>publicMediaEntry(v,files,true)).filter(Boolean).slice(0,20)
  };
 }
+// Authenticated diagnostics: returns only counts and safe status codes, never secrets or Drive IDs.
+async function privateMediaHealth(env,manifest){
+ const hasManifest=typeof env.MEMORIES_MANIFEST==="string"&&!!env.MEMORIES_MANIFEST.trim();
+ let manifestValid=false;
+ if(hasManifest){try{const parsed=JSON.parse(env.MEMORIES_MANIFEST);manifestValid=!!parsed&&typeof parsed==="object"&&!Array.isArray(parsed)&&!!parsed.files&&typeof parsed.files==="object"}catch{}}
+ const index=mediaIndex(manifest);
+ const files=manifest.files??{};
+ const counts={timeline:index.timeline.filter(Boolean).length,videos:index.videos.length,photos:index.photos.length,hero:index.hero?1:0,cutout:files.birthday_cutout?1:0};
+ const credentials={email:!!env.GOOGLE_SA_EMAIL,privateKey:!!env.GOOGLE_SA_PRIVATE_KEY};
+ let googleToken="not_checked";
+ const samples={};
+ if(!credentials.email||!credentials.privateKey)googleToken="credentials_missing";
+ else{
+  try{
+   const token=await googleAccessToken(env);
+   googleToken="ok";
+   const checks=[["hero","hero"],["photo","t01"],["video","v01"],["cutout","birthday_cutout"]];
+   await Promise.all(checks.map(async ([label,key])=>{
+    const file=files[key];
+    if(!file?.id){samples[label]="not_in_manifest";return}
+    try{
+     const response=await fetch("https://www.googleapis.com/drive/v3/files/"+encodeURIComponent(file.id)+"?fields=id%2CmimeType&supportsAllDrives=true",{
+      headers:{Authorization:"Bearer "+token}
+     });
+     samples[label]=response.ok?"accessible":"drive_http_"+response.status;
+    }catch{samples[label]="drive_request_failed"}
+   }));
+  }catch(error){
+   const message=String(error?.message||"");
+   googleToken=message.includes("token exchange")?"oauth_rejected":"invalid_key_or_credentials";
+  }
+ }
+ return {manifestConfigured:hasManifest,manifestValid,credentialsConfigured:credentials,counts,googleToken,samples,
+  hint:!hasManifest?"Add the MEMORIES_MANIFEST secret":
+       !manifestValid?"MEMORIES_MANIFEST is not valid JSON with a files object":
+       !credentials.email||!credentials.privateKey?"Add GOOGLE_SA_EMAIL and GOOGLE_SA_PRIVATE_KEY secrets":
+       googleToken!=="ok"?"Check service account email and private key":
+       Object.values(samples).some(v=>v!=="accessible")?"Check Drive folder Viewer sharing and file IDs":
+       counts.timeline===0?"Check timeline entries and file keys in the manifest":
+       "Media configuration and sample Drive files are accessible"};
+}
+
 let cachedToken=null,tokenExpires=0;
 function pemToBytes(pem){
- const cleaned=pem.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----|\s/g,"");
+ // Accept either actual PEM newlines or the escaped \\n characters copied from JSON.
+ const normalized=String(pem||"").trim().replace(/^["']|["']$/g,"").replace(/\\r\\n|\\n|\\r/g,"\n");
+ const cleaned=normalized.replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----|\s/g,"");
  const bin=atob(cleaned);return Uint8Array.from(bin,c=>c.charCodeAt(0));
 }
 async function googleAccessToken(env){
@@ -171,6 +215,9 @@ export default {
     return secureHeaders(Response.json({ready:false}));
    }
    return secureHeaders(Response.json({ready:true,code}));
+  }
+  if(path==="/api/private/status"&&request.method==="GET"){
+   return secureHeaders(Response.json(await privateMediaHealth(env,manifest)));
   }
   if(path==="/api/private/memories"&&request.method==="GET"){
    return secureHeaders(Response.json(mediaIndex(manifest)));
