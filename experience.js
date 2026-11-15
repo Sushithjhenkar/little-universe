@@ -5,11 +5,11 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const dataSaver=!!navigator.connection?.saveData;
 const musicButton=$("#music"),sheet=$("#music-sheet"),closeMusic=$("#music-close"),musicPause=$("#music-pause"),musicState=$("#music-state"),scFrame=$("#soundcloud-frame");
-let widget=null,ready=false,playing=false,userPaused=false,musicOpen=false,autoRetryTimer=0;
+let widget=null,ready=false,playing=false,userPaused=false,musicOpen=false,autoRetryTimer=0,gestureSeen=false;
 const updateMusicUi=()=>{
  musicPause.textContent=userPaused?"♫ Resume song":"♫ Pause song";
  musicPause.setAttribute("aria-pressed",String(userPaused));
- musicButton.innerHTML="♫ Neene Yendigu <span class=\"sound-dot\" aria-hidden=\"true\"></span>";
+ musicButton.innerHTML="♫ Love You Chinna <span class=\"sound-dot\" aria-hidden=\"true\"></span>";
  musicButton.classList.toggle("music-active",playing);
  musicButton.classList.toggle("music-paused",userPaused);
  musicState.textContent=userPaused?"Paused":playing?"Playing on repeat ♫":ready?"Waiting for browser audio permission…":"Loading SoundCloud…";
@@ -20,15 +20,17 @@ function toggleMusicPanel(open){
 }
 function startSoundtrack(){
  if(!ready||userPaused||playing||!widget)return;
- widget.play(); // Browser may block this until a user gesture, especially on phones.
+ try{widget.play()}catch{musicState.textContent="Tap the music button to play ♫"} // iOS may require a gesture.
 }
 function initializeSoundCloud(){
  if(!window.SC?.Widget||!scFrame){musicState.textContent="SoundCloud unavailable — open the song link";return}
  widget=window.SC.Widget(scFrame);
  widget.bind(window.SC.Widget.Events.READY,()=>{
   ready=true;widget.setVolume(68);updateMusicUi();startSoundtrack();
+  // If the visitor already tapped before the SoundCloud widget finished loading,
+  // retry when it becomes ready. Browsers may still require another gesture.
   clearTimeout(autoRetryTimer);
-  autoRetryTimer=setTimeout(()=>{if(!playing&&!userPaused){musicState.textContent="Tap anywhere on the page to start audio";}},2600);
+  autoRetryTimer=setTimeout(()=>{if(!playing&&!userPaused){musicState.textContent="Tap the music control if your browser blocks autoplay";}},2600);
  });
  widget.bind(window.SC.Widget.Events.PLAY,()=>{playing=true;updateMusicUi()});
  widget.bind(window.SC.Widget.Events.PAUSE,()=>{playing=false;updateMusicUi()});
@@ -51,11 +53,16 @@ addEventListener("keydown",e=>{
  if((e.key==="Enter"||e.key===" ")&&!userPaused)startSoundtrack();
 });
 document.addEventListener("pointerdown",()=>{
- if(!userPaused&&!playing)startSoundtrack();
+ gestureSeen=true;if(!userPaused&&!playing)startSoundtrack();
 },{capture:true,passive:true});
 document.addEventListener("touchstart",()=>{
- if(!userPaused&&!playing)startSoundtrack();
+ gestureSeen=true;if(!userPaused&&!playing)startSoundtrack();
 },{capture:true,passive:true});
+// iOS sometimes ignores play() on touchstart but accepts the completed tap.
+document.addEventListener("click",()=>{
+ gestureSeen=true;
+ if(!userPaused&&!playing)startSoundtrack();
+},{capture:true});
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!userPaused)startSoundtrack()});
 addEventListener("pointerdown",e=>{if(musicOpen&&!sheet.contains(e.target)&&!musicButton.contains(e.target))toggleMusicPanel(false)});
 initializeSoundCloud();
