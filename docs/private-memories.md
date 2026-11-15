@@ -76,3 +76,11 @@ Once the private Worker is fully working, make it the URL you actually send, or 
 - **Cloudflare project unexpectedly changed name:** The dashboard Worker name and Wrangler config name may differ; align them before the next deploy.
 
 This branch does not contain passwords, gift codes, personal media files, or a public manifest of Drive IDs.
+
+## November 15: personal birthday cutout and modern scroll design
+
+The private branch now includes the latest `main` cinematic homepage, modern animation files, the original birthday cake/flower bouquet, and a clean portrait slot in the 3D scroll scene. The scroll slot requests `/api/private/media/birthday_cutout`, **not** the original image with handwritten words. The separate cutout WebP must be uploaded to a restricted Google Drive folder and its new file ID must replace the placeholder in the private `MEMORIES_MANIFEST` secret. Do not commit the image or manifest to the public repository.
+
+A locally prepared manifest template contains the approved 12 timeline photo IDs and 3 video IDs. Item 7 is currently HEIC; for widest browser compatibility convert it to JPEG and update its manifest file ID/mime before launch. The new cutout is a WebP with transparency. All Drive files must be shared with the read-only Google service account. The hero uses the original approved Drive photo; the scroll scene uses the new cutout.
+
+**Not ready for production until:** Cloudflare service-account secrets, session signing key, access phrase, rate-limit binding, complete private manifest and real gift-card code are configured. Do not publish any of these in GitHub, HTML or frontend JS. Run `npm run build:private` and `npm run deploy:private` only after secrets are installed on the separate private Worker. Test authentication, media access, and gift reveal before moving production traffic.
