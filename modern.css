@@ -210,3 +210,7 @@ body:not(.loaded) .hero h1 .w>span{animation-play-state:paused}
 @keyframes vi-float{to{transform:translateY(-25px) rotate(9deg)}}
 @media(max-width:750px){.vi-placeholder{width:calc(min(80vh,820px)*855/1085);min-width:0}}
 @media(prefers-reduced-motion:reduce){.vi-placeholder span{animation:none}}
+/* Mobile-safe hero headline: no invisible animated word wrappers or clipped last word. */
+.hero h1,.hero h1 em{overflow:visible!important;opacity:1!important;visibility:visible!important}
+.hero h1 em{background:none!important;-webkit-text-fill-color:#a96323!important;color:#a96323!important;animation:none!important}
+.hero h1 .w,.hero h1 .w>span{overflow:visible!important;opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
