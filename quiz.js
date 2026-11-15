@@ -58,24 +58,37 @@
   dialog.dataset.kind=type;
   advanceOnClose=after;
   popupOpen=true;
-  if(typeof dialog.showModal==="function")dialog.showModal();
-  else dialog.setAttribute("open","");
+  try{
+   if(typeof dialog.showModal==="function"&&!dialog.open)dialog.showModal();
+   else dialog.setAttribute("open","");
+  }catch(error){
+   console.warn("Quiz modal fallback",error);
+   dialog.setAttribute("open","");
+  }
   continueButton.focus({preventScroll:true});
   if(type==="success")celebratePopup();
  }
- function endFeedback(){
-  if(!popupOpen)return;
-  if(typeof dialog.close==="function"&&dialog.open)dialog.close();
-  else {dialog.removeAttribute("open");onClose()}
- }
+ // Advance immediately from the button tap. Some mobile Safari versions delay
+ // or omit the native dialog "close" event when focus/scroll animations overlap.
  function onClose(){
   if(!popupOpen)return;
   popupOpen=false;
   const next=advanceOnClose;advanceOnClose=null;
   if(next)next();
  }
+ function endFeedback(){
+  if(!popupOpen)return;
+  onClose();
+  try{if(typeof dialog.close==="function"&&dialog.open)dialog.close();
+      else dialog.removeAttribute("open");}
+  catch{dialog.removeAttribute("open")}
+ }
  dialog.addEventListener("close",onClose);
- continueButton.addEventListener("click",endFeedback);
+ dialog.addEventListener("cancel",()=>{onClose()});
+ continueButton.addEventListener("click",event=>{
+  event.preventDefault();
+  endFeedback();
+ });
  function advance(){
   if(index===questions.length-1){showResult();return}
   index++;render();
