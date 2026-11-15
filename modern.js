@@ -9,12 +9,9 @@ const au=document.createElement("div");au.className="aurora";au.setAttribute("ar
 // glass nav on scroll
 const nav=$(".nav");const onS=()=>nav&&nav.classList.toggle("scrolled",scrollY>30);addEventListener("scroll",onS,{passive:true});onS();
 
-// split hero title into animated words (keeps <br> and <em>)
-const h1=$(".hero h1");
-if(h1&&!reduce){let i=0;const wrap=n=>{[...n.childNodes].forEach(c=>{
- if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){f.append(" ");return}
-  const w=document.createElement("span");w.className="w";const s=document.createElement("span");s.style.setProperty("--i",i++);s.textContent=t;w.append(s);f.append(w)});c.replaceWith(f)}
- else if(c.nodeType===1&&c.tagName!=="BR")wrap(c)})};wrap(h1)}
+// Keep the complete hero headline visible on every device. Animated word wrappers
+// could remain paused/transparent after iOS Safari restores a page from cache.
+// The typography and gentle entrance styling are handled by CSS instead.
 
 // magnetic buttons + ripple
 if(fine&&!reduce)$$(".primary,.world-invite,.cake-spin,.cake-cut-launch").forEach(b=>{
