@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "npm run build:private",
     "build:private": "node scripts/build-private.mjs",
+    "deploy": "npm run build:private && wrangler deploy",
     "dev:private": "npm run build:private && wrangler dev --config wrangler.private.jsonc",
     "deploy:private": "npm run build:private && wrangler deploy --config wrangler.private.jsonc"
   },
