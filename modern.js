@@ -33,7 +33,14 @@ if(fine&&!reduce){const g=document.createElement("div");g.className="glow-cursor
  addEventListener("pointermove",e=>{tx=e.clientX;ty=e.clientY;g.style.opacity=1;const n=performance.now();if(n-last>70){last=n;
   const s=document.createElement("span");s.className="sparkle";s.textContent=["✦","✿","♡","✧"][Math.random()*4|0];s.style.left=tx+"px";s.style.top=ty+"px";
   s.style.setProperty("--dx",(Math.random()*50-25)+"px");s.style.setProperty("--dy",(Math.random()*50+10)+"px");document.body.append(s);setTimeout(()=>s.remove(),900)}});
- (function loop(){cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;g.style.transform=`translate(${cx}px,${cy}px)`;requestAnimationFrame(loop)})()}
+ let cursorFrame=0;
+ const follow=()=>{cursorFrame=0;if(document.hidden)return;
+  cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;g.style.transform=`translate(${cx}px,${cy}px)`;
+  if(Math.abs(tx-cx)>.25||Math.abs(ty-cy)>.25)cursorFrame=requestAnimationFrame(follow);
+ };
+ const scheduleCursor=()=>{if(!cursorFrame&&!document.hidden)cursorFrame=requestAnimationFrame(follow)};
+ addEventListener("pointermove",scheduleCursor,{passive:true});
+ document.addEventListener("visibilitychange",scheduleCursor);}
 
 // hero parallax on mouse / scroll
 const hi=$(".hero-inner");
@@ -147,7 +154,16 @@ if(fine&&!rm){const c=document.createElement("div"),r=document.createElement("di
  let tx=innerWidth/2,ty=innerHeight/2,cx=tx,cy=ty,rx=tx,ry=ty;
  addEventListener("pointermove",e=>{tx=e.clientX;ty=e.clientY;const hot=!!e.target.closest("a,button,[role=button],.quiz-choice,.film-card,.wish,input,summary,label");c.classList.toggle("hot",hot);r.classList.toggle("hot",hot);c.classList.remove("away");r.classList.remove("away")});
  document.addEventListener("pointerleave",()=>{c.classList.add("away");r.classList.add("away")});
- (function loop(){cx+=(tx-cx)*.45;cy+=(ty-cy)*.45;rx+=(tx-rx)*.14;ry+=(ty-ry)*.14;c.style.transform=`translate(${cx}px,${cy}px)`;r.style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(loop)})()}
+ let heartFrame=0;
+ const follow=()=>{heartFrame=0;if(document.hidden)return;
+  cx+=(tx-cx)*.45;cy+=(ty-cy)*.45;rx+=(tx-rx)*.14;ry+=(ty-ry)*.14;
+  c.style.transform=`translate(${cx}px,${cy}px)`;r.style.transform=`translate(${rx}px,${ry}px)`;
+  if(Math.abs(tx-cx)>.25||Math.abs(ty-cy)>.25||Math.abs(tx-rx)>.25||Math.abs(ty-ry)>.25)
+   heartFrame=requestAnimationFrame(follow);
+ };
+ const scheduleHeart=()=>{if(!heartFrame&&!document.hidden)heartFrame=requestAnimationFrame(follow)};
+ addEventListener("pointermove",scheduleHeart,{passive:true});
+ document.addEventListener("visibilitychange",scheduleHeart);}
 // chapter dots
 const map=[[".vi","Hello"],[".kw","Wishes"],["#memories","Quiz"],["#journey","Memories"],["#film-reel","Replays"],[".story","Story"],[".h3","Heart"],[".cb","Five wishes"],["#birthday-cake","Cake"],["#golden-bouquet","Bouquet"],[".bigtype","Party"],["#birthday-wish","Wish"]].map(([s,l])=>({el:$(s),l})).filter(o=>o.el);
 const nav=document.createElement("nav");nav.className="chap";nav.setAttribute("aria-label","Chapters");
