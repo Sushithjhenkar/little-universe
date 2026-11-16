@@ -231,3 +231,6 @@ body:not(.loaded) .hero h1 .w>span{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){
  .aurora i{animation:none!important}
 }
+
+/* Transform-only reading progress avoids relayout during long scroll scenes. */
+.progress{width:100%!important;transform:scaleX(0);transform-origin:left center;will-change:transform}
