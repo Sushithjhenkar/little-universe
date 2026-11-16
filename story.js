@@ -34,6 +34,7 @@ if(rm){items.forEach(i=>i.classList.add("on"));return}
 // scroll-driven timeline
 let tk=false;
 function upd(){tk=false;const H=innerHeight,r=list.getBoundingClientRect();
+ if(r.bottom<0||r.top>H*1.5)return; // no DOM painting for an offscreen chapter
  fill.style.height=(cl((H*.6-r.top)/r.height)*100)+"%";
  items.forEach((it,i)=>{const b=it.getBoundingClientRect(),q=ez(cl((H*.9-b.top)/(H*.32))),x0=innerWidth<760?40:(i%2?60:-60);
   it.style.opacity=q;it.style.transform=`perspective(1000px) translate3d(${(1-q)*x0}px,${(1-q)*24}px,0) rotateY(${(1-q)*(x0<0?30:-30)}deg) scale(${.94+.06*q})`;it.style.filter=`blur(${(1-q)*8}px)`;it.classList.toggle("on",q>.7)})}
