@@ -1,7 +1,12 @@
 /* The birthday scroll portrait is a clean cutout only: no source-image lettering. */
-.vi-photo-subject{width:calc(min(94vh,1100px)*855/1085);margin-left:calc(min(94vh,1100px)*855/1085/-2);display:flex;align-items:flex-end;justify-content:center;overflow:visible;isolation:isolate;filter:drop-shadow(0 24px 38px rgba(94,58,18,.28));transform-style:preserve-3d}
+.vi-photo-subject{height:min(80svh,920px);width:calc(min(80svh,920px)*855/1085);margin-left:calc(min(80svh,920px)*855/1085/-2);display:flex;align-items:flex-end;justify-content:center;overflow:visible;isolation:isolate;filter:drop-shadow(0 24px 38px rgba(94,58,18,.28));transform-style:preserve-3d}
 .vi-photo-subject:before{content:"";position:absolute;z-index:-1;inset:15% 5% 10%;border-radius:50%;background:radial-gradient(ellipse,#fff6c98a,transparent 70%);filter:blur(22px)}
 .vi-photo-subject img{width:100%;height:100%;object-fit:contain;object-position:center bottom;display:block;pointer-events:none;user-select:none;backface-visibility:hidden}
 .vi-photo-subject img[hidden]{display:none}
 .vi-photo-subject:has(img[hidden]):after{content:"✿";font:clamp(80px,19vw,250px) Georgia,serif;color:#e1ad48;filter:drop-shadow(0 14px 30px #ad782b44)}
-@media(max-width:750px){.vi-photo-subject{width:calc(min(80vh,820px)*855/1085);margin-left:calc(min(80vh,820px)*855/1085/-2)}.vi-photo-subject img{object-position:center bottom}}
+@media(max-width:750px){.vi-photo-subject{height:min(72svh,740px);width:calc(min(72svh,740px)*855/1085);margin-left:calc(min(72svh,740px)*855/1085/-2)}.vi-photo-subject img{object-position:center bottom}}
+
+/* Hide the fixed header during the cutout chapter without affecting other sections. */
+.nav{transition:background .4s,backdrop-filter .4s,height .4s,box-shadow .4s,transform .4s ease,opacity .3s ease}
+.nav.nav-portrait-hidden{transform:translate3d(0,-115%,0);opacity:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.nav{transition:none}}
