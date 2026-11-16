@@ -42,10 +42,8 @@ if(fine&&!reduce){const g=document.createElement("div");g.className="glow-cursor
  addEventListener("pointermove",scheduleCursor,{passive:true});
  document.addEventListener("visibilitychange",scheduleCursor);}
 
-// hero parallax on mouse / scroll
-const hi=$(".hero-inner");
-if(hi&&!reduce){addEventListener("pointermove",e=>{if(scrollY>innerHeight)return;hi.style.transform=`translate(${(e.clientX/innerWidth-.5)*-18}px,${(e.clientY/innerHeight-.5)*-14}px)`});
- addEventListener("scroll",()=>{if(scrollY<innerHeight)document.documentElement.style.setProperty("--sy",scrollY)},{passive:true})}
+// Hero pointer easing is owned by experience.js. Do not write the same
+// transform from two competing listeners (caused desktop parallax jitter).
 
 // falling golden petals (canvas, pauses when tab hidden)
 if(!reduce&&!navigator.connection?.saveData){const c=document.createElement("canvas");c.id="petals";c.setAttribute("aria-hidden","true");document.body.append(c);const x=c.getContext("2d");
