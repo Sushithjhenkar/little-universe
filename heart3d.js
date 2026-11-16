@@ -2,12 +2,12 @@
 (()=>{
 const T=document.querySelector(".h3-track");if(!T)return;
 const sec=T.closest(".h3"),canvas=T.querySelector(".h3-canvas"),ta=T.querySelector(".h3-text .a"),tb=T.querySelector(".h3-text .b"),hint=T.querySelector(".h3-hint"),glow=T.querySelector(".h3-glow");
-const rm=matchMedia("(prefers-reduced-motion:reduce)").matches,cl=v=>Math.max(0,Math.min(1,v)),ez=v=>v*v*(3-2*v);
+const rm=matchMedia("(prefers-reduced-motion:reduce)").matches,small=matchMedia("(max-width:750px)").matches,cl=v=>Math.max(0,Math.min(1,v)),ez=v=>v*v*(3-2*v);
 function boot(){
 let gl=null;try{if(window.THREE)gl=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true})}catch(e){gl=null}
 if(!gl)sec.classList.add("nogl");
 let grp,ring1,ring2,pts,minis=[],cam,scene,fit=1,gold;
-if(gl){gl.setPixelRatio(Math.min(devicePixelRatio||1,2));
+if(gl){gl.setPixelRatio(Math.min(devicePixelRatio||1,small?1.25:1.8));
  scene=new THREE.Scene();cam=new THREE.PerspectiveCamera(40,1,.1,100);cam.position.set(0,0,9);
  scene.add(new THREE.AmbientLight(0xffe2b0,.8));
  const d=new THREE.DirectionalLight(0xffffff,1.3);d.position.set(3,4,6);scene.add(d);
@@ -20,11 +20,11 @@ if(gl){gl.setPixelRatio(Math.min(devicePixelRatio||1,2));
  const heart=new THREE.Mesh(geo,gold);heart.rotation.z=Math.PI;heart.scale.setScalar(3.2);grp=new THREE.Group();grp.add(heart);scene.add(grp);
  const rm1=new THREE.MeshBasicMaterial({color:0xffe08a,transparent:true,opacity:.75});
  ring1=new THREE.Mesh(new THREE.TorusGeometry(3.3,.035,16,200),rm1);ring2=new THREE.Mesh(new THREE.TorusGeometry(3.9,.025,16,200),rm1);scene.add(ring1,ring2);
- const N=450,pos=new Float32Array(N*3);for(let i=0;i<N;i++){const r=3.6+Math.random()*4.2,a=Math.random()*6.283,b=Math.acos(2*Math.random()-1);pos[i*3]=r*Math.sin(b)*Math.cos(a);pos[i*3+1]=r*Math.sin(b)*Math.sin(a);pos[i*3+2]=r*Math.cos(b)}
+ const N=small?220:450,pos=new Float32Array(N*3);for(let i=0;i<N;i++){const r=3.6+Math.random()*4.2,a=Math.random()*6.283,b=Math.acos(2*Math.random()-1);pos[i*3]=r*Math.sin(b)*Math.cos(a);pos[i*3+1]=r*Math.sin(b)*Math.sin(a);pos[i*3+2]=r*Math.cos(b)}
  const pg=new THREE.BufferGeometry();pg.setAttribute("position",new THREE.BufferAttribute(pos,3));
  pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0xfff3b0,size:.07,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(pts);
  const pink=new THREE.MeshStandardMaterial({color:0xff5c8a,metalness:.3,roughness:.35});
- for(let i=0;i<12;i++){const m=new THREE.Mesh(geo,pink);m.scale.setScalar(.55);m.rotation.z=Math.PI;scene.add(m);minis.push({m,r:3.5+Math.random()*1.8,sp:.15+Math.random()*.25,ph:Math.random()*6.283,yo:(Math.random()-.5)*3})}}
+ for(let i=0;i<(small?7:12);i++){const m=new THREE.Mesh(geo,pink);m.scale.setScalar(.55);m.rotation.z=Math.PI;scene.add(m);minis.push({m,r:3.5+Math.random()*1.8,sp:.15+Math.random()*.25,ph:Math.random()*6.283,yo:(Math.random()-.5)*3})}}
 function resize(){if(!gl)return;const w=canvas.clientWidth||innerWidth,h=canvas.clientHeight||innerHeight;gl.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();fit=Math.min(1,cam.aspect*1.25)}
 resize();addEventListener("resize",()=>{resize();frame(true)});
 let mx=0,my=0,vis=false,raf=0;const t0=performance.now();
@@ -43,9 +43,28 @@ function frame(once){const t=(performance.now()-t0)/1000,r=T.getBoundingClientRe
  minis.forEach(o=>{const an=t*o.sp+o.ph+p*3;o.m.position.set(Math.cos(an)*o.r*fit,o.yo+Math.sin(t*.6+o.ph)*.6,Math.sin(an)*o.r*.6);o.m.rotation.y=t+o.ph});
  gold.emissiveIntensity=.3+.2*Math.sin(t*2);
  gl.render(scene,cam)}
-function loop(){if(!vis){raf=0;return}frame();raf=requestAnimationFrame(loop)}
+let lastRender=0;
+function loop(timestamp){
+ if(!vis){raf=0;return}
+ // Render at ~30fps on phones; animation remains time-based and responsive.
+ if(!small||timestamp-lastRender>=32){frame();lastRender=timestamp}
+ raf=requestAnimationFrame(loop);
+}
 if(rm){frame(true);return}
 new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis&&!raf)loop()},{rootMargin:"100px"}).observe(T);
 }
-if(window.THREE||rm)boot();else addEventListener("load",boot);
+// Defer expensive WebGL creation until the visitor approaches this chapter.
+let started=false;
+function begin(){
+ if(started)return;
+ started=true;
+ if(window.THREE||rm||document.readyState==="complete")boot();
+ else addEventListener("load",boot,{once:true});
+}
+if("IntersectionObserver" in window){
+ const preloader=new IntersectionObserver(entries=>{
+  if(entries.some(entry=>entry.isIntersecting)){preloader.disconnect();begin()}
+ },{rootMargin:"900px 0px"});
+ preloader.observe(T);
+}else begin();
 })();
