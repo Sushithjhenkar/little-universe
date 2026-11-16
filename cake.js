@@ -47,6 +47,8 @@ const paint=()=>{cake.style.transform="rotateX(-18deg) rotateY("+angle.toFixed(2
 function animate(timestamp){
  frame=0;
  if(!visible||document.hidden||reduced.matches)return;
+ // Keep the cake spinning smoothly without repainting every 60Hz mobile frame.
+ if(small.matches&&lastFrameTime&&timestamp-lastFrameTime<32){frame=requestAnimationFrame(animate);return}
  const elapsed=Math.min(lastFrameTime?timestamp-lastFrameTime:16,48);
  lastFrameTime=timestamp;
  if(!dragging&&timestamp>quietUntil){
