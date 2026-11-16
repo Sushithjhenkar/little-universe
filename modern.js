@@ -61,8 +61,9 @@ if(!reduce&&!navigator.connection?.saveData){const c=document.createElement("can
   // Mobile: ~24fps with a capped canvas resolution; desktop: ~30fps.
   const interval=mobilePetals()?42:33;
   if(time-lastPaint<interval){raf=requestAnimationFrame(tick);return}
+  const step=lastPaint?Math.min(3,(time-lastPaint)/16.7):1;
   lastPaint=time;
-  x.clearRect(0,0,W,H);P.forEach((p,i)=>{p.y+=p.vy;p.sw+=p.sp;p.x+=Math.sin(p.sw)*.7;p.rot+=p.vr;if(p.y>H+20)P[i]=mk(true);
+  x.clearRect(0,0,W,H);P.forEach((p,i)=>{p.y+=p.vy*step;p.sw+=p.sp*step;p.x+=Math.sin(p.sw)*.7*step;p.rot+=p.vr*step;if(p.y>H+20)P[i]=mk(true);
   x.save();x.translate(p.x,p.y);x.rotate(p.rot);x.globalAlpha=p.a;x.fillStyle=p.c;x.beginPath();x.ellipse(0,0,p.r,p.r*.55,0,0,6.283);x.fill();x.restore()});
   raf=requestAnimationFrame(tick);
  }
