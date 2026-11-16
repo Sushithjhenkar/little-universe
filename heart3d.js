@@ -58,8 +58,15 @@ let started=false;
 function begin(){
  if(started)return;
  started=true;
- if(window.THREE||rm||document.readyState==="complete")boot();
- else addEventListener("load",boot,{once:true});
+ if(window.THREE||rm){boot();return}
+ // Load Three.js only when the heart chapter approaches the viewport.
+ // On network failure, boot() displays the existing CSS fallback.
+ const library=document.createElement("script");
+ library.src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+ library.async=true;
+ library.onload=boot;
+ library.onerror=boot;
+ document.head.append(library);
 }
 if("IntersectionObserver" in window){
  const preloader=new IntersectionObserver(entries=>{
