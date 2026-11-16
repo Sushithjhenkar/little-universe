@@ -8,6 +8,15 @@ const au=document.createElement("div");au.className="aurora";au.setAttribute("ar
 
 // glass nav on scroll
 const nav=$(".nav");const onS=()=>nav&&nav.classList.toggle("scrolled",scrollY>30);addEventListener("scroll",onS,{passive:true});onS();
+// Give the birthday portrait its full screen: hide the fixed header only while
+// the cutout chapter occupies the viewport, then restore it automatically.
+const portraitScene=$(".vi");
+if(nav&&portraitScene&&"IntersectionObserver" in window){
+ const portraitNavObserver=new IntersectionObserver(([entry])=>{
+  nav.classList.toggle("nav-portrait-hidden",entry.isIntersecting);
+ },{rootMargin:"-10% 0px -10% 0px",threshold:0});
+ portraitNavObserver.observe(portraitScene);
+}
 
 // Keep the complete hero headline visible on every device. Animated word wrappers
 // could remain paused/transparent after iOS Safari restores a page from cache.
@@ -87,7 +96,11 @@ function upd(){tick=false;const r=t.getBoundingClientRect();
  const p=cl(-r.top/Math.max(1,r.height-innerHeight)),m=innerWidth<750;
  const intro=ez(cl(p/.18)),z=ez(cl((p-.08)/.8)),late=ez(cl((p-.7)/.3));
  // her: rises in, then zooms toward the camera
- sub.style.transform=`perspective(1400px) translate3d(${mx*-16}px,${(1-intro)*34+my*-6}vh,0) rotateY(${mx*14+Math.sin(p*3.1416)*-9}deg) rotateX(${my*-6}deg) scale(${1+z*(m?.55:.42)})`;
+ // Keep the cutout head fully inside the visible viewport during the zoom.
+ const visibleHeight=window.visualViewport?.height||innerHeight;
+ const maximumZoom=m?1.20:1.14;
+ const safeZoom=Math.max(1,Math.min(maximumZoom,(visibleHeight-Math.max(20,visibleHeight*.05))/Math.max(1,sub.offsetHeight)));
+ sub.style.transform=`perspective(1400px) translate3d(${mx*-16}px,${(1-intro)*34+my*-6}vh,0) rotateY(${mx*14+Math.sin(p*3.1416)*-9}deg) rotateX(${my*-6}deg) scale(${1+z*(safeZoom-1)})`;
  if(!m)sub.style.filter=`blur(${(1-intro)*10}px) drop-shadow(0 30px 50px rgba(120,50,0,.35))`;
  // giant type behind her slides apart in opposite directions and grows
  const sp=(m?60:34);l1.style.transform=`translate3d(${(.5-p)*sp*1.0+mx*30}vw,0,0) scale(${1+z*.12})`;l2.style.transform=`translate3d(${(p-.5)*sp*1.0+mx*-30}vw,0,0) scale(${1+z*.12})`;
