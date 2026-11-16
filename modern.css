@@ -214,3 +214,20 @@ body:not(.loaded) .hero h1 .w>span{animation-play-state:paused}
 .hero h1,.hero h1 em{overflow:visible!important;opacity:1!important;visibility:visible!important}
 .hero h1 em{background:none!important;-webkit-text-fill-color:#a96323!important;color:#a96323!important;animation:none!important}
 .hero h1 .w,.hero h1 .w>span{overflow:visible!important;opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+
+/* Performance polish: keep the cinematic composition, reduce costly mobile repaints. */
+@media(max-width:750px){
+ .aurora i{width:65vmax;height:65vmax;filter:blur(42px);opacity:.24;mix-blend-mode:normal}
+ .aurora i:nth-child(3){display:none}
+ .nav.scrolled{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+ .vi-subject{filter:none!important;will-change:transform}
+ .vi-near span{filter:none}
+ .vi-cap{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+ .kw-bg{filter:blur(20px);will-change:transform}
+ .kw-words b{will-change:transform,opacity}
+ .film-visual{will-change:auto}
+ .hero-inner{will-change:auto}
+}
+@media(prefers-reduced-motion:reduce){
+ .aurora i{animation:none!important}
+}
