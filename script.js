@@ -40,4 +40,14 @@ if(hero&&"IntersectionObserver" in window){
   requestStars();
  },{rootMargin:"100px"}).observe(hero);
 }
-const reveal=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");reveal.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>reveal.observe(el));function progress(){const total=document.documentElement.scrollHeight-innerHeight;$("#progress").style.width=(total?scrollY/total*100:0)+"%"}addEventListener("scroll",progress,{passive:true});progress();document.querySelectorAll(".wish").forEach(b=>b.addEventListener("click",()=>{$("#wish-text").textContent=b.dataset.wish}));$("#celebrate").addEventListener("click",()=>{const colors=["#f8c744","#ffe69b","#ffffff","#efaf92","#b9ca95","#fff2c6"];const mobile=innerWidth<750;for(let i=0;i<(reduce?18:(mobile?50:95));i++){const el=document.createElement("i");el.className="confetti";el.style.left=Math.random()*100+"vw";el.style.background=colors[i%colors.length];el.style.setProperty("--dx",(Math.random()*240-120)+"px");el.style.setProperty("--duration",(Math.random()*2+2)+"s");document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove());if(reduce)setTimeout(()=>el.remove(),1000)}});})();
+const reveal=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");reveal.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(el=>reveal.observe(el));const progressEl=$("#progress");let progressFrame=0;
+function progress(){
+ progressFrame=0;
+ if(!progressEl)return;
+ const total=document.documentElement.scrollHeight-innerHeight;
+ progressEl.style.transform="scaleX("+Math.max(0,Math.min(1,total?scrollY/total:0)).toFixed(4)+")";
+}
+function scheduleProgress(){if(!progressFrame)progressFrame=requestAnimationFrame(progress)}
+addEventListener("scroll",scheduleProgress,{passive:true});
+addEventListener("resize",scheduleProgress,{passive:true});
+progress();document.querySelectorAll(".wish").forEach(b=>b.addEventListener("click",()=>{$("#wish-text").textContent=b.dataset.wish}));$("#celebrate").addEventListener("click",()=>{const colors=["#f8c744","#ffe69b","#ffffff","#efaf92","#b9ca95","#fff2c6"];const mobile=innerWidth<750;for(let i=0;i<(reduce?18:(mobile?50:95));i++){const el=document.createElement("i");el.className="confetti";el.style.left=Math.random()*100+"vw";el.style.background=colors[i%colors.length];el.style.setProperty("--dx",(Math.random()*240-120)+"px");el.style.setProperty("--duration",(Math.random()*2+2)+"s");document.body.appendChild(el);el.addEventListener("animationend",()=>el.remove());if(reduce)setTimeout(()=>el.remove(),1000)}});})();
